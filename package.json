@@ -5,7 +5,7 @@
     "install:frontend": "cd frontend && npm install",
     "install:backend": "cd backend && npm install",
     "build:frontend": "cd frontend && npm run build",
-    "build:backend": "cd backend && npm run build", // if your backend needs a build step
+    "build:backend": "cd backend && npm run build",
     "start:backend": "cd backend && node server.js",
     "start:frontend": "cd frontend && npm start",
     "postinstall": "npm run install:frontend && npm run install:backend",
