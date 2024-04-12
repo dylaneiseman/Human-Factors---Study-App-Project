@@ -1,0 +1,57 @@
+/* scss variables */
+@use '@css/SharedVariables.scss' as *;
+
+#app {
+    display: grid;
+    grid-template-columns: 100%;
+    font-size: $rem;
+}
+
+#app > #header {
+    width: 100%;
+    border-bottom: 1.5px $a1 solid;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background: $a2;
+    .logout {
+        justify-self: flex-end;
+        align-self: flex-end;
+        padding: 14px 10px 7px;
+        box-sizing: border-box;
+        margin: 0;
+        width: 7em;
+    }
+    .links {
+        column-gap: 4px;
+        padding: 14px 10px 7px;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    a, button {
+        box-sizing: border-box;
+        display: block;
+        padding: 8px 14px 4px;
+        margin: 4px 4px -7px 4px;
+        border-radius: 5px 5px 0 0;
+        font: 650 rem(.98)/1 "Nunito";
+        transition: .25s ease;
+        text-align: center;
+        cursor: pointer;
+        box-shadow: 0 -2px 5px $shadow;
+
+        &:nth-of-type(1n) { background: mix($a1, $a2, 70%); color: $color-a1 }
+        &:nth-of-type(2n) { background: mix($bg, $a2, 90%); color: $color }
+        &:nth-of-type(3n) { background: $a2; color: $color-a2 }
+
+        &:hover { font-weight: 800;}
+    }
+}
+
+#wrapper {
+    width: 100%;
+    max-width: 1000px;
+    padding: 80/1000*100vw;
+    box-sizing: border-box;
+    margin: auto;
+}
