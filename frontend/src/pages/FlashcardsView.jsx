@@ -1,14 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import NewCard from '@forms/NewCard';
 import NewSet from '@forms/NewSet';
 
 function ViewFlashcards(){
+    const [sets, setSets] = useState(null);
+    const [cards, setCards] = useState(null);
+    const [error, setError] = useState(null);
+    
+    useEffect(() => {
+        async function getSets() {
+            try {
+                const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/sets", {
+                    method: "get",
+                    headers: {
+                        "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                const json = await response.json();
+                setSets(json);
+            } catch (err) {
+                console.log(err);
+                setError(error);
+            }
+        }
+        async function getCards() {
+            try {
+                const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/cards", {
+                    method: "get",
+                    headers: {
+                        "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(response.statusText);
+                }
+                const json = await response.json();
+                setCards(json);
+            } catch (err) {
+                console.log(err);
+                setError(error);
+            }
+        }
+        getSets();
+        getCards();
+    }, []);
+
+    if (sets===null || cards===null) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    if (sets.length === 0) return <div><a href="/flashcards/set/new">Create your first set!</a></div>
+
     return(
         <>
-        <NewCard/>
-        <NewSet/>
+        {sets.map(set => 
+            <div className="set" id={"set-" + set._id}>
+                <h1>{set.setName}</h1>
+                {cards.map(card=> 
+                    set._id===card.setID ? 
+                    <div className="card" id={"card-" + card._id}>
+                        <div className="card_q">{card.question}</div>
+                        <div className="card_a">{card.answer}</div>
+                    </div> 
+                    : ""
+                )}
+            </div>)
+        }
+            <NewCard/>
+            <NewSet/>
         </>
     )
 }
@@ -17,7 +78,6 @@ export function OneSet(){
     const [data, setData] = useState(null);
     const [cards, setCards] = useState(null);
     const [error, setError] = useState(null);
-    const {id} = useParams();
 
     useEffect(() => {
         async function getData() {

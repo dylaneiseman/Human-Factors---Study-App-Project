@@ -26,6 +26,7 @@ function Settings() {
             }
             const json = await response.json();
             setStyle({...style, ...json.theme})
+            window.location.reload()
         } catch (err) {
             console.log(err);
         }

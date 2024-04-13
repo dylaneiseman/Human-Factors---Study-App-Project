@@ -51,6 +51,7 @@ function ViewCourses(){
 
 export function OneCourse() {
     const [data, setData] = useState(null);
+    const [sets, setSets] = useState(null);
     const [error, setError] = useState(null);
     const [assignments, setAssignments] = useState(null);
     const {id} = useParams();
@@ -94,8 +95,9 @@ export function OneCourse() {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                const {course} = await response.json();
+                const {course, sets} = await response.json();
                 setData(course);
+                setSets(sets);
             } catch (err) {
                 console.log(err);
                 setError(error);
@@ -138,7 +140,9 @@ export function OneCourse() {
             <ul>
                 {assignments}
             </ul>
-            Create a flashcard set:
+            <ul>
+                {sets.map(e => <li>{e.setName}</li>)}
+            </ul>
             <NewSet courseID={data._id}/>
         </div>
     );

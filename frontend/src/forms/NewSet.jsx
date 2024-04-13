@@ -73,7 +73,7 @@ function NewSet(args){
                 </select>
             }
             <input type='text' id='setName' name='setName' placeholder='Name of set'/>
-            <input type="submit" value="Create Flashcard" />
+            <input type="submit" value="Create Flashcard Set" />
         </form>
     )
 }
