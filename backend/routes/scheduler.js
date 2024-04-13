@@ -5,10 +5,12 @@ const checkAccess = require('../middleware/checkAccess')
 
 
 const {
+     getStudySchedule,
+     setSemesterDates
+    } = require('../controllers/schedulerController')
 
-} = require('../controllers/schedulerController')
 
-
-
+router.get('/', requireAuth, checkAccess('readOwn', 'scheduler'), getStudySchedule)
+router.post('/', requireAuth, checkAccess('createOwn', 'scheduler'), setSemesterDates)
 
 module.exports = router
