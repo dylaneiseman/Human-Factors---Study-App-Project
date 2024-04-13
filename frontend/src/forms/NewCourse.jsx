@@ -18,8 +18,7 @@ function NewCourse() {
                     "Content-Type": "application/json"
                 }
             });
-            const json = await response.json()
-            navigate("/courses/" + json["_id"])
+            navigate("/courses")
         } catch (err) {
             console.log(err);
         }
@@ -29,6 +28,7 @@ function NewCourse() {
     return(
         <form id="new-course" method="post" onSubmit={handleSubmit}>
             <input type="text" id="courseName" name="courseName" placeholder="Course title"/>
+            <input type="number" id="courseTime" name="courseTime" placeholder="1.0" step="0.1" min="0" />
             <input type="number" id="intensityRank" name="intensityRank" placeholder="1" step="1" min="1" max="5"/>
             <input type="submit" value="Create Course" />
         </form>
