@@ -52,6 +52,7 @@ function Application() {
                     <a href="/home">Dashboard</a>
                     <a href="/courses">Courses</a>
                     <a href="/assignments">Assignments</a>
+                    <a href="/flashcards">Flashcards</a>
                     <a href="/settings">Preferences</a>
                 </div>
                 <Logout/>

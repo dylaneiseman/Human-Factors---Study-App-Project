@@ -38,8 +38,8 @@ app.use('/api/courses', courseRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/assignments', assignmentRoutes)
 app.use('/api/scheduler', schedulerRoutes)
-app.use('/api/cards', flashcardRoutes)
-app.use('/api/sets', flashcardSetsRoutes)
+app.use('/api/flashcards/cards', flashcardRoutes)
+app.use('/api/flashcards/sets', flashcardSetsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));

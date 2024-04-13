@@ -34,7 +34,7 @@ function ViewAssignments(){
     useEffect(() => {
         async function getData() {
             try {
-                const response = await fetch(process.env.REACT_APP_API_URL+window.location.pathname, {
+                const response = await fetch(process.env.REACT_APP_API_URL + window.location.pathname.slice(1), {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]

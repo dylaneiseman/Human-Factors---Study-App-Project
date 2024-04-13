@@ -17,7 +17,7 @@ function Signup(){
                 }
             });
             localStorage.setItem("authToken", await response.text());
-            if(window.location.pathname=='/') navigate("/home");
+            if(window.location.pathname.slice(1)=='/') navigate("/home");
             window.location.reload();
         } catch (err) {
             console.log(err);

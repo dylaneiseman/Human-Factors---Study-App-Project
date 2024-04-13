@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 import Landing from "@pages/Landing";
 import NotFound from "@pages/NotFound";
@@ -16,11 +17,12 @@ import ViewAssignments from '@pages/AssignmentView';
 import NewAssignment from '@forms/NewAssignment';
 
 import Flashcards from '@pages/Flashcards';
-import ViewFlashcards from '@pages/FlashcardsView';
-import NewFlashcard from '@forms/NewFlashcard';
-import NewFlashcardSet from '@forms/NewFlashcardSet';
+import ViewFlashcards, { OneSet, OneCard } from '@pages/FlashcardsView';
+import NewCard from '@forms/NewCard';
+import NewSet from '@forms/NewSet';
 
 import Settings from '@pages/Settings';
+import { Nav } from 'react-bootstrap';
 
 function Pages() {
     return(
@@ -33,18 +35,22 @@ function Pages() {
                     <Route path="/courses" element={<Courses/>}>
                         <Route path=":id" element={<OneCourse/>}/>
                         <Route path="new" element={<NewCourse/>}/>
+                        <Route path="*" element={<Navigate to="/courses"/>}/>
                         <Route index element={<ViewCourses/>}/>
                     </Route>
                     <Route path="/assignments" element={<Assignments/>}>
                         <Route path=":id" element={<ViewAssignments/>}/>
                         <Route path="new" element={<NewAssignment/>}/>
+                        <Route path="*" element={<Navigate to="/assignments"/>}/>
                         <Route index element={<ViewAssignments/>}/>
                     </Route>
                     <Route path="/flashcards" element={<Flashcards/>}>
-                        <Route path="/card/new" element={<NewFlashcard/>}/>
-                        <Route path="/set/new" element={<NewFlashcardSet/>}/>
-                        <Route path="/card/:id" element={<ViewAssignments/>}/>
-                        <Route path="/set/:id" element={<ViewAssignments/>}/>
+                        <Route path="cards/new" element={<NewCard/>}/>
+                        <Route path="sets/new" element={<NewSet/>}/>
+                        <Route path="cards/:id" element={<OneCard/>}/>
+                        <Route path="sets/:id" element={<OneSet/>}/>
+                        <Route path="sets" element={<ViewFlashcards/>}/>
+                        <Route path="*" element={<Navigate to="/flashcards/sets"/>}/>
                         <Route index element={<ViewFlashcards/>}/>
                     </Route>
                     <Route path="/settings" element={<Settings/>}/>

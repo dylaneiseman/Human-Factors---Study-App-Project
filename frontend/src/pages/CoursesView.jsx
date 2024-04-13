@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import NewFlashcard from '@forms/NewFlashcard';
+import NewFlashcard from '@forms/NewCard';
 
 function ViewCourses(){
     const [data, setData] = useState(null);
@@ -85,7 +85,7 @@ export function OneCourse() {
     useEffect(() => {
         async function getData() {
             try {
-                const response = await fetch(process.env.REACT_APP_API_URL + window.location.pathname, {
+                const response = await fetch(process.env.REACT_APP_API_URL + window.location.pathname.slice(1), {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
