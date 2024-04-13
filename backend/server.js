@@ -37,10 +37,10 @@ app.get('/', (req, res) => {
 });
 
 // routes
-app.use('/courses', courseRoutes)
-app.use('/user', userRoutes)
-app.use('/assignments', assignmentRoutes)
-app.use('/scheduler', schedulerRoutes)
+app.use('/api/courses', courseRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/assignments', assignmentRoutes)
+app.use('/api/scheduler', schedulerRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
