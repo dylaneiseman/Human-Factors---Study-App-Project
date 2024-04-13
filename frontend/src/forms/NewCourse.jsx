@@ -18,7 +18,8 @@ function NewCourse() {
                     "Content-Type": "application/json"
                 }
             });
-            navigate("/courses")
+            const json = await response.json()
+            navigate("/courses/" + json["_id"])
         } catch (err) {
             console.log(err);
         }

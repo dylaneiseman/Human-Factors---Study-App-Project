@@ -1,4 +1,5 @@
 const Course = require('../models/courseModel')
+const Set = require('../models/flashcardSetModel')
 const mongoose = require('mongoose')
 const {getUserId} = require("../helpers/getUserId")
 
@@ -22,10 +23,11 @@ const getCourse = async (req, res) => {
 			return res.status(404).json({error: 'The course does not exist.'})
 		}
 		const course = await Course.findOne({_id: id, userID})
+		const sets = await Set.find({courseID: id, userID: userID}).sort({createdAt:-1});
 		if (!course) {
 			return res.status(404).json({error: 'The course does not exist.'})
 		}
-		res.status(200).json(course)
+		res.status(200).json({course: course, sets: sets})
 	} catch(error) {
 		res.status(400).json({ error: error.message })
 	}

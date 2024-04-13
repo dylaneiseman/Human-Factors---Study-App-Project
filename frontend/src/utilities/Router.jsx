@@ -8,16 +8,19 @@ import Application from "@pages/Application";
 import Home from "@pages/Home";
 
 import Courses from '@pages/Courses';
-import ViewCourses from '@pages/CoursesView';
+import ViewCourses, { OneCourse } from '@pages/CoursesView';
 import NewCourse from '@forms/NewCourse';
 
 import Assignments from '@pages/Assignments';
 import ViewAssignments from '@pages/AssignmentView';
 import NewAssignment from '@forms/NewAssignment';
 
+import Flashcards from '@pages/Flashcards';
+import ViewFlashcards from '@pages/FlashcardsView';
 import NewFlashcard from '@forms/NewFlashcard';
-import NewFlashcardGroup from '@forms/NewFlashcardGroup';
+import NewFlashcardSet from '@forms/NewFlashcardSet';
 
+import Settings from '@pages/Settings';
 
 function Pages() {
     return(
@@ -28,7 +31,7 @@ function Pages() {
                 <Route element={<Application/>}>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/courses" element={<Courses/>}>
-                        <Route path=":id" element={<ViewCourses/>}/>
+                        <Route path=":id" element={<OneCourse/>}/>
                         <Route path="new" element={<NewCourse/>}/>
                         <Route index element={<ViewCourses/>}/>
                     </Route>
@@ -37,9 +40,14 @@ function Pages() {
                         <Route path="new" element={<NewAssignment/>}/>
                         <Route index element={<ViewAssignments/>}/>
                     </Route>
-                    <Route path="/flashcards" element={<NewFlashcardGroup/>}>
-                        <Route path="thing" element={<NewFlashcard/>}/>
+                    <Route path="/flashcards" element={<Flashcards/>}>
+                        <Route path="/card/new" element={<NewFlashcard/>}/>
+                        <Route path="/set/new" element={<NewFlashcardSet/>}/>
+                        <Route path="/card/:id" element={<ViewAssignments/>}/>
+                        <Route path="/set/:id" element={<ViewAssignments/>}/>
+                        <Route index element={<ViewFlashcards/>}/>
                     </Route>
+                    <Route path="/settings" element={<Settings/>}/>
                 </Route>
             </Routes>
         </Router>

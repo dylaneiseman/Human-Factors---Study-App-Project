@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import NewFlashcard from '@forms/NewFlashcard';
 
 function ViewCourses(){
     const [data, setData] = useState(null);
@@ -93,7 +94,8 @@ export function OneCourse() {
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                setData(await response.json());
+                const {course} = await response.json();
+                setData(course);
             } catch (err) {
                 console.log(err);
                 setError(error);
@@ -136,6 +138,8 @@ export function OneCourse() {
             <ul>
                 {assignments}
             </ul>
+            Create a flashcard:
+            <NewFlashcard/>
         </div>
     );
 }

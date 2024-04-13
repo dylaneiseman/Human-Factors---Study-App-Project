@@ -6,6 +6,8 @@ const userRoutes = require('./routes/user')
 const courseRoutes = require('./routes/courses')
 const assignmentRoutes = require('./routes/assignments')
 const schedulerRoutes = require('./routes/scheduler')
+const flashcardRoutes = require('./routes/flashcards')
+const flashcardSetsRoutes = require('./routes/flashcardsets')
 const path = require("path");
 
 // express app
@@ -36,6 +38,8 @@ app.use('/api/courses', courseRoutes)
 app.use('/api/user', userRoutes)
 app.use('/api/assignments', assignmentRoutes)
 app.use('/api/scheduler', schedulerRoutes)
+app.use('/api/cards', flashcardRoutes)
+app.use('/api/sets', flashcardSetsRoutes)
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));

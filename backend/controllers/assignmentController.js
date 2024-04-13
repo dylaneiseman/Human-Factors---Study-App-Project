@@ -11,7 +11,7 @@ const createAssignment = async (req, res) => {
 	try {
         const userID = getUserId(req)
         // check to prevent users from creating assignments in other courses
-        const course = await Course.findOne({ _id: courseID, userID })
+        const course = await Course.findOne({ _id: courseID, userID: userID })
         if (!course) {
             return res.status(403).json({ error: 'You do not have permission to add assignments to this course.' })
         }

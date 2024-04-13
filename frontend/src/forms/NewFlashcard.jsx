@@ -15,9 +15,9 @@ function NewFlashcard(){
     }
 
     return(
-        <form id = 'new-flashcard' method = 'post' onSubmit = {handleSubmit}>
-            <input type = 'text' id = 'question' name = 'question' placeholder = 'Flashcard Question'/>
-            <input type = 'text' id = 'answer' name = 'answer' placeholder = 'Flashcard Answer'/>
+        <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
+            <input type='text' id='question' name='question' placeholder='Flashcard Question'/>
+            <input type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
             <input type="submit" value="Create Flashcard" />
         </form>
     )
