@@ -63,7 +63,7 @@ function TodoAssignments(){
         )
     }
 
-    if (dataView.length === 0) return <div><a href="/assignments/new">Create your first assignment!</a></div>
+    if (dataView.length === 0) return <div className="empty_item"><a href="/assignments/new">Create your first assignment!</a></div>
 
 
     return(

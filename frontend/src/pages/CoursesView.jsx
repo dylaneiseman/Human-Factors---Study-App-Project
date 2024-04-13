@@ -84,7 +84,7 @@ export function OneCourse() {
     useEffect(() => {
         async function getData() {
             try {
-                const response = await fetch(process.env.REACT_APP_API_URL+window.location.pathname, {
+                const response = await fetch(process.env.REACT_APP_API_URL + window.location.pathname, {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
@@ -133,7 +133,6 @@ export function OneCourse() {
             <a href="/courses">All Courses</a>
             <input type="text" id="courseName" name="courseName" defaultValue={data.courseName} onChange={(e)=>handleChange(e, data)}/>
             <input type="number" id="intensityRank" name="intensityRank" defaultValue={data.intensityRank} step="1" min="1" max="5" onChange={(e)=>handleChange(e, data)}/>
-
             <ul>
                 {assignments}
             </ul>

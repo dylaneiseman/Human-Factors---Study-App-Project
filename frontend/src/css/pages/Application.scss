@@ -40,8 +40,8 @@
         cursor: pointer;
         box-shadow: 0 -2px 5px $shadow;
 
-        &:nth-of-type(1n) { background: mix($a1, $a2, 70%); color: $color-a1 }
-        &:nth-of-type(2n) { background: mix($bg, $a2, 90%); color: $color }
+        &:nth-of-type(1n) { background: $a1; color: $color-a1 }
+        &:nth-of-type(2n) { background: $bg; color: $color }
         &:nth-of-type(3n) { background: $a2; color: $color-a2 }
 
         &:hover { font-weight: 800;}

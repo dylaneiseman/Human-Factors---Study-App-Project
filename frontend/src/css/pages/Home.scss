@@ -27,13 +27,17 @@
         border-bottom-right-radius: 8px;
         padding: 33px 30px 28px;
     }
-
     .list {
         margin-right: 40px;
         background: $bg;
         border: 1.5px solid $a1;
         border-bottom: 0;
         border-left: 0;
+        border-top-right-radius: 8px;
+    }
+    .empty_item {
+        padding: 20px;
+        background: $offbg;
         border-top-right-radius: 8px;
     }
 }
