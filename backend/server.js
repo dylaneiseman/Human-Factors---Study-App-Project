@@ -26,6 +26,11 @@ app.use(function(req, res, next){
     else next();
 });
 
+// Register API routes
+app.get("/api", (req, res) => {
+    res.json({ message: "Hello from server!" });
+});
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
     app.get('*', (req, res) =>
