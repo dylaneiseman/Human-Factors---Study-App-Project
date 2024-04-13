@@ -6,6 +6,7 @@ const userRoutes = require('./routes/user')
 const courseRoutes = require('./routes/courses')
 const assignmentRoutes = require('./routes/assignments')
 const schedulerRoutes = require('./routes/scheduler')
+const path = require("path");
 
 // express app
 const app = express()
