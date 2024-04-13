@@ -11,6 +11,8 @@ ac.grant('user')
   .updateOwn('assignment')
   .deleteOwn('assignment')
   .readOwn('assignment')
+  .createOwn('scheduler')
+  .readOwn('scheduler')
 
 ac.grant('admin')
   .extend('user')
