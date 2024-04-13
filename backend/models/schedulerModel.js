@@ -6,14 +6,17 @@ const schedulerSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    assignmentID: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Assignment'
+    semesterStart: {
+        type: Date,
+        required: true
     },
-    completed: {
-        type: Boolean,
-        default: false
+    semesterEnd: {
+        type: Date,
+        required: true
+    },
+    weeklyStudyTime: {
+        type: Number,
+        required: true
     }
 }, { timestamps: true })
 
