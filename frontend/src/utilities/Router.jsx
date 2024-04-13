@@ -8,14 +8,15 @@ import Application from "@pages/Application";
 import Home from "@pages/Home";
 
 import Courses from '@pages/Courses';
-import ViewCourses, {OneCourse} from '@pages/CoursesView';
+import ViewCourses from '@pages/CoursesView';
 import NewCourse from '@forms/NewCourse';
 
 import Assignments from '@pages/Assignments';
 import ViewAssignments from '@pages/AssignmentView';
 import NewAssignment from '@forms/NewAssignment';
 
-import Settings from '@pages/Settings';
+import NewFlashcard from '@forms/NewFlashcard';
+import NewFlashcardGroup from '@forms/NewFlashcardGroup';
 
 
 function Pages() {
@@ -27,7 +28,7 @@ function Pages() {
                 <Route element={<Application/>}>
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/courses" element={<Courses/>}>
-                        <Route path=":id" element={<OneCourse/>}/>
+                        <Route path=":id" element={<ViewCourses/>}/>
                         <Route path="new" element={<NewCourse/>}/>
                         <Route index element={<ViewCourses/>}/>
                     </Route>
@@ -36,7 +37,9 @@ function Pages() {
                         <Route path="new" element={<NewAssignment/>}/>
                         <Route index element={<ViewAssignments/>}/>
                     </Route>
-                    <Route path="/settings" element={<Settings/>}/>
+                    <Route path="/flashcards" element={<NewFlashcardGroup/>}>
+                        <Route path="thing" element={<NewFlashcard/>}/>
+                    </Route>
                 </Route>
             </Routes>
         </Router>
