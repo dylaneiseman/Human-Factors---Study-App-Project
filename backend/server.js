@@ -26,16 +26,14 @@ app.use(function(req, res, next){
     else next();
 });
 
-if (process.env.NODE_ENV === 'production'){
-app.use(express.static('../frontend/build'))
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
-})}
-
-// Define the root route
-app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Welcome to the API' });
-});
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../frontend/build')));
+    app.get('*', (req, res) =>
+      res.sendFile(
+        path.resolve(__dirname, 'frontend', 'build', 'index.html')
+      )
+    );
+  }
 
 // routes
 app.use('/api/courses', courseRoutes)
