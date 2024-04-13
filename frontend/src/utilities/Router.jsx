@@ -17,12 +17,13 @@ import ViewAssignments from '@pages/AssignmentView';
 import NewAssignment from '@forms/NewAssignment';
 
 import Flashcards from '@pages/Flashcards';
-import ViewFlashcards, { OneSet, OneCard } from '@pages/FlashcardsView';
+import ViewFlashcards, { OneSet } from '@pages/FlashcardsView';
 import NewCard from '@forms/NewCard';
 import NewSet from '@forms/NewSet';
+import Play from '@pages/FlashcardsPlay';
 
 import Settings from '@pages/Settings';
-import { Nav } from 'react-bootstrap';
+
 
 function Pages() {
     return(
@@ -47,8 +48,8 @@ function Pages() {
                     <Route path="/flashcards" element={<Flashcards/>}>
                         <Route path="cards/new" element={<NewCard/>}/>
                         <Route path="sets/new" element={<NewSet/>}/>
-                        <Route path="cards/:id" element={<OneCard/>}/>
                         <Route path="sets/:id" element={<OneSet/>}/>
+                        <Route path="sets/:id/play" element={<Play/>}/>
                         <Route path="sets" element={<ViewFlashcards/>}/>
                         <Route path="*" element={<Navigate to="/flashcards/sets"/>}/>
                         <Route index element={<ViewFlashcards/>}/>

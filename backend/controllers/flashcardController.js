@@ -102,8 +102,8 @@ const getFlashcardSet = async (req, res) =>{
 	}
     try{
         const userID = getUserId(req)
-        const cards = await Flashcard.find({setID: setID, userID: userID}).sort({createdAt:-1});
-        const set = await FlashcardSet.findOne({_id: setID, userID: userID}).sort({createdAt:-1});
+        const cards = await Flashcard.find({setID: id, userID: userID}).sort({createdAt:-1});
+        const set = await FlashcardSet.findOne({_id: id, userID: userID}).sort({createdAt:-1});
         res.status(200).json({cards: cards, set: set});
     } catch (error) {
         res.status(400).json({ error: error.message });

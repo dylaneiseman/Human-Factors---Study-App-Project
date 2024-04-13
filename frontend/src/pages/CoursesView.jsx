@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import NewFlashcard from '@forms/NewCard';
+import NewSet from '@forms/NewSet';
 
 function ViewCourses(){
     const [data, setData] = useState(null);
@@ -138,8 +138,8 @@ export function OneCourse() {
             <ul>
                 {assignments}
             </ul>
-            Create a flashcard:
-            <NewFlashcard/>
+            Create a flashcard set:
+            <NewSet courseID={data._id}/>
         </div>
     );
 }

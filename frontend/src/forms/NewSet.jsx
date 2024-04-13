@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 
-function NewSet(){
+function NewSet(args){
     const [courses, setCourses] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const navigate = useNavigate();
+
+    const { courseID } = args
+    const hasID = courseID!==undefined && courseID!==null
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -24,6 +26,7 @@ function NewSet(){
             });
             const json = await response.json()
             navigate("/flashcards/sets/" + json["_id"])
+            window.location.reload()
         } catch (err) {
             console.log(err);
         }
@@ -42,32 +45,33 @@ function NewSet(){
                     console.log(response.json());
                     throw new Error(response.statusText);
                 }
-                setCourses(await response.json());
-                setLoading(false);
+                const json = await response.json();
+                setCourses(json);
             } catch (err) {
                 console.log(err);
                 setError(error);
-                setLoading(false);
             }
         }
-        getCourses();
+        if(!hasID) {
+            getCourses()
+        } else {
+            setCourses(courseID)
+        };
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (courses===null) return <div>Loading...</div>;
 
     if (error) return <div>Error: {error.message}</div>;
 
     if (courses.length === 0) return <div><a href="/courses/new">Create a course first!</a></div>
 
-    const courseOptions = [];
-    courses.forEach(e=>{
-        courseOptions.push(<option value={e["_id"]}>{e["courseName"]}</option>)
-    })
     return(
         <form id='new-flashcard-set' method='post' onSubmit={handleSubmit}>
-            <select name="courseID" id="courseID">
-                {courseOptions}
-            </select>
+            {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> :
+                <select name="courseID" id="courseID">
+                    {courses.map(e => <option value={e["_id"]}>{e["courseName"]}</option> )}
+                </select>
+            }
             <input type='text' id='setName' name='setName' placeholder='Name of set'/>
             <input type="submit" value="Create Flashcard" />
         </form>

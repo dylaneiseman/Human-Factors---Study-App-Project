@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 
-function NewCard(){
+function NewCard(args){
     const [sets, setSets] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const { setID } = args
+    const hasID = setID!==undefined && setID!==null
 
     const navigate = useNavigate();
 
@@ -23,7 +25,8 @@ function NewCard(){
                 }
             });
             const json = await response.json()
-            navigate("/flashcards/cards/" + json["_id"])
+            navigate("/flashcards/sets/" + json["setID"])
+            window.location.reload()
         } catch (err) {
             console.log(err);
         }
@@ -43,31 +46,31 @@ function NewCard(){
                     throw new Error(response.statusText);
                 }
                 setSets(await response.json());
-                setLoading(false);
             } catch (err) {
                 console.log(err);
                 setError(error);
-                setLoading(false);
             }
         }
-        getSets();
+        if(!hasID) {
+            getSets()
+        } else {
+            setSets(setID)
+        }
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (sets===null) return <div>Loading...</div>;
 
     if (error) return <div>Error: {error.message}</div>;
 
     if (sets.length === 0) return <div><a href="/flashcards/set/new">Create a set first!</a></div>
 
-    const setOptions = [];
-    sets.forEach(e=>{
-        setOptions.push(<option value={e["_id"]}>{e["setName"]}</option>)
-    })
     return(
         <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
-            <select name="setID" id="setID">
-                {setOptions}
-            </select>
+            {hasID ? <input type='hidden' id='setID' name='setID' value={setID}/> :
+                <select name="setID" id="setID">
+                    {sets.map(e=> <option value={e["_id"]}>{e["setName"]}</option>) }
+                </select>
+            }
             <input type='text' id='question' name='question' placeholder='Flashcard Question'/>
             <input type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
             <input type="submit" value="Create Flashcard" />
