@@ -31,6 +31,12 @@ app.get("/api", (req, res) => {
     res.json({ message: "Hello from server!" });
 });
 
+// routes
+app.use('/api/courses', courseRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/assignments', assignmentRoutes)
+app.use('/api/scheduler', schedulerRoutes)
+
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
     app.get('*', (req, res) =>
@@ -39,12 +45,6 @@ if (process.env.NODE_ENV === 'production') {
       )
     );
   }
-
-// routes
-app.use('/api/courses', courseRoutes)
-app.use('/api/user', userRoutes)
-app.use('/api/assignments', assignmentRoutes)
-app.use('/api/scheduler', schedulerRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)
