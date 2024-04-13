@@ -25,6 +25,11 @@ app.use(function(req, res, next){
     else next();
 });
 
+// Define the root route
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Welcome to the API' });
+});
+
 // routes
 app.use('/api/courses', courseRoutes)
 app.use('/api/user', userRoutes)
