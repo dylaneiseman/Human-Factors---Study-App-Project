@@ -11,7 +11,7 @@ function NewAssignment() {
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
         try {
-            const response = await fetch('http://localhost:4000/api/assignments/', { 
+            const response = await fetch(process.env.REACT_APP_API_URL + 'assignments/', { 
                 method: form.method,
                 body: JSON.stringify(formJson), 
                 headers: {
@@ -33,7 +33,7 @@ function NewAssignment() {
     useEffect(() => {
         async function getCourses() {
             try {
-                const response = await fetch("http://localhost:4000/api/courses", {
+                const response = await fetch(process.env.REACT_APP_API_URL + "courses", {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]

@@ -8,7 +8,7 @@ function TodoCourse(){
     useEffect(() => {
         async function getData() {
             try {
-                const response = await fetch("http://localhost:4000/api/courses", {
+                const response = await fetch(process.env.REACT_APP_API_URL + "courses", {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]

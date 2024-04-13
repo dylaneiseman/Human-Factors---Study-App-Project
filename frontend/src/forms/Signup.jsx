@@ -9,7 +9,7 @@ function Signup(){
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
         try {
-            const response = await fetch('http://localhost:4000/api/user/signup', { 
+            const response = await fetch(process.env.REACT_APP_API_URL + 'user/signup', { 
                 method: form.method,
                 body: JSON.stringify(formJson), 
                 headers: {

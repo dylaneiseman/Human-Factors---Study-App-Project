@@ -25,16 +25,22 @@ app.use(function(req, res, next){
     else next();
 });
 
+if (process.env.NODE_ENV === 'production'){
+app.use(express.static('../frontend/build'))
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+})}
+
 // Define the root route
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Welcome to the API' });
 });
 
 // routes
-app.use('/api/courses', courseRoutes)
-app.use('/api/user', userRoutes)
-app.use('/api/assignments', assignmentRoutes)
-app.use('/api/scheduler', schedulerRoutes)
+app.use('/courses', courseRoutes)
+app.use('/user', userRoutes)
+app.use('/assignments', assignmentRoutes)
+app.use('/scheduler', schedulerRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

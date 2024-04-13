@@ -8,7 +8,7 @@ function ViewAssignments(){
     useEffect(() => {
         async function getCourses() {
             try {
-                const response = await fetch("http://localhost:4000/api/courses", {
+                const response = await fetch(process.env.REACT_APP_API_URL + "courses", {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
@@ -34,7 +34,7 @@ function ViewAssignments(){
     useEffect(() => {
         async function getData() {
             try {
-                const response = await fetch("http://localhost:4000/api"+window.location.pathname, {
+                const response = await fetch(process.env.REACT_APP_API_URL+window.location.pathname, {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
@@ -60,7 +60,7 @@ function ViewAssignments(){
 
     async function handleCompleted(data) {
         try {
-            const response = await fetch("http://localhost:4000/api/assignments/" + data._id, {
+            const response = await fetch(process.env.REACT_APP_API_URL + "assignments/" + data._id, {
                 method: "put",
                 headers: {
                     'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ function ViewAssignments(){
         const body = {}
         body[e.target.name] = e.target.value;
         try {
-            const response = await fetch("http://localhost:4000/api/assignments/" + data._id, {
+            const response = await fetch(process.env.REACT_APP_API_URL + "assignments/" + data._id, {
                 method: "put",
                 headers: {
                     'Content-Type': 'application/json',

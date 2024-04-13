@@ -12,7 +12,7 @@ function Settings() {
             const form = e.target;
             const formData = new FormData(form);
             const formJson = Object.fromEntries(formData.entries());
-            const response = await fetch("http://localhost:4000/api/user", {
+            const response = await fetch(process.env.REACT_APP_API_URL + "user", {
                 method: "put",
                 headers: {
                     "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"],

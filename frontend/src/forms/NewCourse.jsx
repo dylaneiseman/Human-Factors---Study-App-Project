@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 
 function NewCourse() {
@@ -10,7 +10,7 @@ function NewCourse() {
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
         try {
-            const response = await fetch('http://localhost:4000/api/courses/', { 
+            const response = await fetch(process.env.REACT_APP_API_URL + 'courses/', { 
                 method: form.method,
                 body: JSON.stringify(formJson), 
                 headers: {
