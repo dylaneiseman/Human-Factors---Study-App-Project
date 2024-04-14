@@ -3,10 +3,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const flashcardSchema = new Schema({
-    setID: {
+    flashcardGroupID: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'FlashcardSet',
+        ref: 'FlashcardGroup',
     },
     question: {
         type: String,

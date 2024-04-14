@@ -1,18 +1,18 @@
 const Flashcard = require('../models/flashcardModel')
-const FlashcardSet = require('../models/flashcardSetModel')
+const FlashcardGroup = require('../models/flashcardGroup')
 const mongoose = require('mongoose')
 const {getUserId} = require("../helpers/getUserId")
 
 const createFlashcard = async (req, res) =>{
-    const {setID, question, answer} = req.body;
+    const {flashcardGroupID, question, answer} = req.body;
 
     try{
         const userID = getUserId(req);
-        const set = await FlashcardSet.findOne({_id: setID, userID: userID});
-        if(!set){
+        const flashCardGroup = await FlashcardGroup.findOne({_id: flashcardGroupID, userID: userID});
+        if(!flashCardGroup){
            return res.status(403).json({error: 'Could not add flashcard to group.'})
         }
-        const flashcard = await Flashcard.create({setID, question, answer, userID});
+        const flashcard = await Flashcard.create({flashcardGroupID, question, answer, userID});
         res.status(200).json(flashcard)
 
     }catch(error){
@@ -21,7 +21,7 @@ const createFlashcard = async (req, res) =>{
 }
 
 const deleteFlashcard = async (req, res) =>{
-    const { id } = req.params
+    const {id} = req.params
     try{
         const userID = getUserId(req);
         const flashcard = await Flashcard.findOneAndDelete({_id:id , userID: userID })
@@ -52,94 +52,112 @@ const updateFlashcard = async (req, res) =>{
     }
 }
 
-const createFlashcardSet = async (req, res) =>{
-    const { courseID, setName } = req.body;
+const createFlashcardGroup = async (req, res) =>{
+    const {groupName} = req.body;
     try{
         const userID = getUserId(req);
-        const flashcardSet = await FlashcardSet.create({courseID, setName, userID});
-        res.status(200).json(flashcardSet)
-    } catch(error){
-        res.status(400).json({ error: error.message });
-    }
-}
-
-const deleteFlashcardSet = async (req, res) =>{
-    const { id } = req.params
-    try{
-        const userID = getUserId(req);
-        const flashcardSet = await Flashcard.findOneAndDelete({_id:id , userID: userID })
-        if (!flashcardSet) {
-            return res.status(404).json({ error: 'Flashcard set does not exist.' })
-        }
-        res.status(200).json({ message: 'Flashcard set deleted successfully.' })
+        const flashcardGroup = await FlashcardGroup.create({groupName, userID});
+        res.status(200).json(flashcardGroup)
 
     }catch(error){
         res.status(400).json({ error: error.message });
     }
 }
 
-const updateFlashcardSet = async (req, res) =>{
+const deleteFlashcardGroup = async (req, res) =>{
+    const {id} = req.params
+    try{
+        const userID = getUserId(req);
+        const flashcardGroup = await FlashcardGroup.findOneAndDelete({_id:id , userID: userID })
+        if (!flashcardGroup) {
+            return res.status(404).json({ error: 'Flashcard group does not exist.' })
+        }
+        res.status(200).json({ message: 'Flashcard group deleted successfully.' })
+
+    }catch(error){
+        res.status(400).json({ error: error.message });
+    }
+}
+
+const updateFlashcardGroup = async (req, res) =>{
     const { id } = req.params
     const updateData = req.body
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
-		return res.status(404).json({ error: 'Flashcard set does not exist.' })
+		return res.status(404).json({ error: 'Flashcard group does not exist.' })
 	}
 
     try {
         const userID = getUserId(req)
-        const flashcardSet = await FlashcardSet.findOneAndUpdate({ _id: id, userID: userID }, updateData, {new: true});
-        res.status(200).json(flashcardSet);
+        const flashcardGroup = await FlashcardGroup.findOneAndUpdate({ _id: id, userID: userID }, updateData, {new: true});
+        res.status(200).json(flashcardGroup);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
 
-const getFlashcardSet = async (req, res) =>{
-    const { id } = req.params
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-		return res.status(404).json({ error: 'Flashcard set does not exist.' })
-	}
+const getFlashcardsFromGroup = async (req, res) =>{
+    const {id} = req.params
+
+    try{
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+			return res.status(404).json({error: 'The flashcard group does not exist.'})
+		}
+        const userID = getUserId(req)
+        const flashcards = await Flashcard.find({flashcardGroupID: id, userID: userID}).sort({createdAt:-1});
+        res.status(200).json(flashcards);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+const getFlashcardGroupsFromUser = async (req, res) =>{
     try{
         const userID = getUserId(req)
-        const cards = await Flashcard.find({setID: id, userID: userID}).sort({createdAt:-1});
-        const set = await FlashcardSet.findOne({_id: id, userID: userID}).sort({createdAt:-1});
-        res.status(200).json({cards: cards, set: set});
+        const flashcardGroups = await FlashcardGroup.find({userID: userID}).sort({createdAt:-1});
+        res.status(200).json(flashcardGroups);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 }
 
-const getAllFlashcards = async (req, res) => {
-    try {
+const getFlashcard = async(req, res) => {
+    const {id} = req.params
+    try{
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+			return res.status(404).json({error: 'The flashcard does not exist.'})
+		}
         const userID = getUserId(req)
-        const flashcard = await Flashcard.find({userID: userID}).sort({createdAt:-1});
+        const flashcard = await Flashcard.findOne({_id: id, userID: userID});
         res.status(200).json(flashcard);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-};
-
-const getAllFlashcardSets = async (req, res) =>{
-    try{
-        const userID = getUserId(req)
-        const flashcardSets = await FlashcardSet.find({userID: userID}).sort({createdAt:-1});
-        res.status(200).json(flashcardSets);
-    } catch (error) {
+    }catch(error){
         res.status(400).json({ error: error.message });
     }
 }
 
-
+const getFlashcardGroup = async(req, res) => {
+    const {id} = req.params
+    try{
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+			return res.status(404).json({error: 'The flashcard group does not exist.'})
+		}
+        const userID = getUserId(req)
+        const flashcardGroup = await FlashcardGroup.findOne({_id: id, userID: userID});
+        res.status(200).json(flashcardGroup);
+    }catch(error){
+        res.status(400).json({ error: error.message });
+    }
+}
 
 module.exports = {
     createFlashcard,
+    getFlashcard,
     deleteFlashcard,
     updateFlashcard,
-    createFlashcardSet,
-    deleteFlashcardSet,
-    updateFlashcardSet,
-    getFlashcardSet,
-    getAllFlashcards,
-    getAllFlashcardSets
+    createFlashcardGroup,
+    getFlashcardGroup,
+    deleteFlashcardGroup,
+    updateFlashcardGroup,
+    getFlashcardsFromGroup,
+    getFlashcardGroupsFromUser
 }

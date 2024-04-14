@@ -17,10 +17,11 @@ import ViewAssignments from '@pages/AssignmentView';
 import NewAssignment from '@forms/NewAssignment';
 
 import Flashcards from '@pages/Flashcards';
-import ViewFlashcards, { OneSet } from '@pages/FlashcardsView';
-import NewCard from '@forms/NewCard';
-import NewSet from '@forms/NewSet';
-import Play from '@pages/FlashcardsPlay';
+import ViewFlashcardGroups, {OneGroup} from '@pages/FlashcardGroupView';
+import NewFlashcard from '@forms/NewFlashcard';
+import EditFlashcard from '@forms/EditFlashcard';
+import NewFlashcardGroup from '@forms/NewFlashcardGroup';
+import EditFlashcardGroup from '@forms/EditFlashcardGroup';
 
 import Settings from '@pages/Settings';
 
@@ -46,13 +47,12 @@ function Pages() {
                         <Route index element={<ViewAssignments/>}/>
                     </Route>
                     <Route path="/flashcards" element={<Flashcards/>}>
-                        <Route path="cards/new" element={<NewCard/>}/>
-                        <Route path="sets/new" element={<NewSet/>}/>
-                        <Route path="sets/:id" element={<OneSet/>}/>
-                        <Route path="sets/:id/play" element={<Play/>}/>
-                        <Route path="sets" element={<ViewFlashcards/>}/>
-                        <Route path="*" element={<Navigate to="/flashcards/sets"/>}/>
-                        <Route index element={<ViewFlashcards/>}/>
+                        <Route path="cards/new" element={<NewFlashcard/>}/>
+                        <Route path="sets/new" element={<NewFlashcardGroup/>}/>
+                        <Route path="sets/:id" element={<OneGroup/>}/>
+                        <Route path="cards/edit/:id" element={<EditFlashcard/>}/>
+                        <Route path="sets/edit/:id" element={<EditFlashcardGroup/>}/>
+                        <Route index element={<ViewFlashcardGroups/>}/>
                     </Route>
                     <Route path="/settings" element={<Settings/>}/>
                 </Route>

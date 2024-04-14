@@ -1,13 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 
-function NewCard(args){
-    const [sets, setSets] = useState(null);
-    const [error, setError] = useState(null);
-
-    const { setID } = args
-    const hasID = setID!==undefined && setID!==null
-
+function NewFlashcard(){
     const navigate = useNavigate();
 
     async function handleSubmit(e) {
@@ -16,7 +10,7 @@ function NewCard(args){
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
         try {
-            const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/cards", { 
+            const response = await fetch(process.env.REACT_APP_API_URL+'flashcards', { 
                 method: form.method,
                 body: JSON.stringify(formJson), 
                 headers: {
@@ -24,18 +18,20 @@ function NewCard(args){
                     "Content-Type": "application/json"
                 }
             });
-            const json = await response.json()
-            navigate("/flashcards/sets/" + json["setID"])
-            window.location.reload()
+            navigate("/flashcards")
         } catch (err) {
             console.log(err);
         }
     }
 
+    const [flashcardGroups, setFlashcardGroups] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
-        async function getSets() {
+        async function getFlashcardGroups() {
             try {
-                const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/sets", {
+                const response = await fetch(process.env.REACT_APP_API_URL+"flashcards", {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
@@ -45,37 +41,38 @@ function NewCard(args){
                     console.log(response.json());
                     throw new Error(response.statusText);
                 }
-                setSets(await response.json());
+                setFlashcardGroups(await response.json());
+                setLoading(false);
             } catch (err) {
                 console.log(err);
                 setError(error);
+                setLoading(false);
             }
         }
-        if(!hasID) {
-            getSets()
-        } else {
-            setSets(setID)
-        }
+        getFlashcardGroups();
     }, []);
 
-    if (sets===null) return <div>Loading...</div>;
+    if (loading) return <div>Loading...</div>;
 
     if (error) return <div>Error: {error.message}</div>;
 
-    if (sets.length === 0) return <div><a href="/flashcards/set/new">Create a set first!</a></div>
+    if (flashcardGroups.length === 0) return <div><a href="/flashcards/sets/new">Create a flashcard set first!</a></div>
+    
+    const flashcardGroupOptions = [];
+    flashcardGroups.forEach(e=>{
+        flashcardGroupOptions.push(<option value={e["_id"]}>{e["groupName"]}</option>)
+    })
 
     return(
-        <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
-            {hasID ? <input type='hidden' id='setID' name='setID' value={setID}/> :
-                <select name="setID" id="setID">
-                    {sets.map(e=> <option value={e["_id"]}>{e["setName"]}</option>) }
-                </select>
-            }
-            <input type='text' id='question' name='question' placeholder='Flashcard Question'/>
-            <input type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
+        <form id = 'new-flashcard' method = 'post' onSubmit = {handleSubmit}>
+            <select name="flashcardGroupID" id="flashcardGroupID">
+                {flashcardGroupOptions}
+            </select>
+            <input type = 'text' id = 'question' name = 'question' placeholder = 'Flashcard Question'/>
+            <input type = 'text' id = 'answer' name = 'answer' placeholder = 'Flashcard Answer'/>
             <input type="submit" value="Create Flashcard" />
         </form>
     )
 }
 
-export default NewCard;
+export default NewFlashcard;
