@@ -73,7 +73,7 @@ function ViewFlashcards(){
     if (error) return <div>Error: {error.message}</div>;
     if (sets.length === 0) return <div><a href="/flashcards/sets/new">Create your first set!</a></div>
 
-    function Delete({type, id}) { return (<button onClick={()=>handleDelete(type,id)}>delete?</button>) }
+    function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
     const dataView = []
     for (const course of courses) {
         const assign = [];
@@ -94,11 +94,11 @@ function ViewFlashcards(){
     }
 
     return(
-        <>
+        <div id="view">
         {dataView}
             <NewCard/>
             <NewSet/>
-        </>
+        </div>
     )
 }
 
@@ -176,9 +176,9 @@ export function OneSet(){
     
     // if (cards.length === 0) return <div><a href="/flashcards/cards/new">Create your first card!</a></div>
 
-    function Delete({type, id}) { return (<button onClick={()=>handleDelete(type,id)}>delete?</button>) }
+    function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
     return(
-        <>
+        <div id="view">
         <a href="/flashcards/sets/">All sets</a>
 
         <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/> <button onClick={()=>handleDelete("sets", data._id)}>delete?</button>
@@ -192,7 +192,7 @@ export function OneSet(){
         }
         <NewCard setID={data._id}/>
 
-        </>
+        </div>
     )
 }
 

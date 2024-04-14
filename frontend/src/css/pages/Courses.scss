@@ -1,0 +1,19 @@
+/* scss variables */
+@use '@css/SharedVariables.scss' as *;
+
+#courses {
+    --bg: #{$offbg};
+    --c: #{$color-offbg};
+}
+
+#course-details {
+    display: grid;
+    grid-template-columns: 1fr 40px 25%;
+    gap: 2px;
+}
+
+#assignments-list {}
+
+#new-assignment {}
+
+#flashcards-list {}

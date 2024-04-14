@@ -5,6 +5,8 @@
     display: grid;
     grid-template-columns: 100%;
     font-size: $rem;
+    height: 100%;
+    grid-template-rows: min-content 1fr;
 }
 
 #app > #header {
@@ -50,8 +52,9 @@
 
 #wrapper {
     width: 100%;
-    max-width: 1000px;
     padding: 80/1000*100vw;
     box-sizing: border-box;
     margin: auto;
+    height: 100%;
+    overflow: auto;
 }

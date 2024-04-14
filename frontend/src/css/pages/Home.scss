@@ -57,9 +57,12 @@
     .completed {
         padding: 10px;
     }
-    .item:nth-of-type(even) {
+    .item:nth-of-type(odd) {
         background: $offbg;
         color: $color-offbg;
+    }
+    .item:nth-of-type(1) {
+        border-top-right-radius: 8px;
     }
 }
 

@@ -117,7 +117,7 @@ function ViewAssignments(){
         }
     }
 
-    function Delete({id}) { return (<button onClick={()=>handleDelete(id)}>delete?</button>) }
+    function Delete({id}) { return (<button className="delete" onClick={()=>handleDelete(id)}>delete?</button>) }
     const dataView = []
     if (Array.isArray(data)) { 
         for (const course of courses) {
@@ -155,7 +155,7 @@ function ViewAssignments(){
     }
 
     return(
-        <div id="assignment-view">
+        <div id="view">
             {dataView}
         </div>
     );

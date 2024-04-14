@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
-// import "@css/pages/Settings.scss"
+import "@css/pages/Settings.scss"
 
 function Settings() {
     const [style, setStyle] = useOutletContext();
@@ -69,7 +69,6 @@ function Settings() {
                 <input type="number" step="1" min="10" name="--text-size" defaultValue={cssval("--text-size")} onChange={handleChange}/>
                 <input type="submit" value="Save"/>
             </form>
-
         </div>
     );
 }
