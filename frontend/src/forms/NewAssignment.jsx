@@ -73,9 +73,9 @@ function NewAssignment(args) {
                     <option value={e["_id"]}>{e["courseName"]}</option>
                 )}
             </select>}
-            <input type="text" id="assignmentTitle" name="assignmentTitle" placeholder="Assignment title"/>
+            <input required type="text" id="assignmentTitle" name="assignmentTitle" placeholder="Assignment title"/>
             <textarea id="description" name="description" placeholder="Description of assignment"></textarea>
-            <input type="date" id="dueDate" name="dueDate" defaultValue={defaultDate}/>
+            <input required type="date" id="dueDate" name="dueDate" defaultValue={defaultDate}/>
             <input type="submit" value="Create Assignment" />
         </form>
     )

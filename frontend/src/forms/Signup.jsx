@@ -25,8 +25,8 @@ function Signup(){
     }
     return(
         <form id="signup" method="post" onSubmit={handleSubmit}>
-            <input type="email" id="email" name="email" placeholder="email@provider.com"/>
-            <input type="password" id="password" name="password" placeholder="password"/>
+            <input required type="email" id="email" name="email" placeholder="email@provider.com"/>
+            <input required type="password" id="password" name="password" placeholder="password"/>
             <input type="submit" value="Sign Up"/>
         </form>
     )

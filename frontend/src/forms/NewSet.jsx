@@ -72,8 +72,8 @@ function NewSet(args){
                     {courses.map(e => <option value={e["_id"]}>{e["courseName"]}</option> )}
                 </select>
             }
-            <input type='text' id='setName' name='setName' placeholder='Name of set'/>
-            <input type="submit" value="Create Flashcard Set" />
+            <input required type='text' id='setName' name='setName' placeholder='Set name'/>
+            <input required type="submit" value="Create Flashcard Set" />
         </form>
     )
 }
