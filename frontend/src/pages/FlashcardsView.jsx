@@ -2,14 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import NewCard from '@forms/NewCard';
 import NewSet from '@forms/NewSet';
+import Modal from '@components/Modal';
 
 function ViewFlashcards(){
     const [sets, setSets] = useState(null);
     const [courses, setCourses] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate()
+    const [modal, setModal] = useState(null);
 
-    async function handleDelete(type, id) {
+    //<div>
+    //             <label>Are you sure you want to delete this flashcard set?</label>
+    //             <div>
+    //                 <button id = "yes" onClick = {DeleteGroup}>Yes</button>
+    //                 <button id = "no" onClick = {HideGroupConfirm}>No</button>
+    //             </div>
+    //         </div>
+
+    function handleDelete(type, id, name) {
+        setModal(<Modal className="delete-msg">
+            <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
+            <div className="options">
+                <button className="btn-yes" onClick={()=>onDelete(type, id)}>Yes</button>
+                <button className="btn-no" onClick={()=>setModal(null)}>No</button>
+            </div>
+        </Modal>)
+    } 
+    async function onDelete(type, id) {
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/" + type + "/" + id, {
                 method: "delete",
@@ -73,7 +92,7 @@ function ViewFlashcards(){
     if (error) return <div>Error: {error.message}</div>;
     if (sets.length === 0) return <div><a href="/flashcards/sets/new">Create your first set!</a></div>
 
-    function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
+    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}>delete?</button>) }
     const dataView = []
     for (const course of courses) {
         const assign = [];
@@ -83,7 +102,7 @@ function ViewFlashcards(){
                 <li id={e._id}>
                     <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
                     <a href={"/flashcards/sets/" + e._id + "/play"} className="play">Play</a>
-                    <Delete type="sets" id={e._id}/>
+                    <Delete type="sets" id={e._id} name={e.setName}/>
                 </li>
             )
         }
@@ -99,6 +118,7 @@ function ViewFlashcards(){
         {dataView}
             <NewCard/>
             <NewSet/>
+        {modal}
         </div>
     )
 }
@@ -107,9 +127,19 @@ export function OneSet(){
     const [data, setData] = useState(null);
     const [cards, setCards] = useState(null);
     const [error, setError] = useState(null);
+    const [modal, setModal] = useState(null);
     const navigate = useNavigate()
 
-    async function handleDelete(type, id) {
+    function handleDelete(type, id, name) {
+        setModal(<Modal className="delete-msg">
+            <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
+            <div className="options">
+                <button className="btn-yes" onClick={()=>onDelete(type, id)}>Yes</button>
+                <button className="btn-no" onClick={()=>setModal(null)}>No</button>
+            </div>
+        </Modal>)
+    } 
+    async function onDelete(type, id) {
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/" + type + "/" + id, {
                 method: "delete",
@@ -177,7 +207,7 @@ export function OneSet(){
     
     // if (cards.length === 0) return <div><a href="/flashcards/cards/new">Create your first card!</a></div>
 
-    function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
+    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}>delete?</button>) }
     return(
         <div id="view">
             <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
@@ -186,11 +216,12 @@ export function OneSet(){
                 <div className="card" id={e._id}>
                     <input className="card_q" name="question" id="question" defaultValue={e.question} onChange={($this)=>handleChange($this, "cards", e._id)}/>
                     <input className="card_a" name="answer" id="answer" defaultValue={e.answer} onChange={($this)=>handleChange($this, "cards", e._id)}/>
-                    <Delete id={e._id} type="cards"/>
+                    <Delete id={e._id} type="cards" name="this card"/>
                 </div>
                 )
             }
             <NewCard setID={data._id}/>
+            {modal}
         </div>
     )
 }

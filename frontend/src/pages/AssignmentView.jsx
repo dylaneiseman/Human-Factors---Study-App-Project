@@ -1,6 +1,7 @@
 import NewAssignment from '@forms/NewAssignment';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import Modal from '@components/Modal';
 
 function ViewAssignments(){
     const [data, setData] = useState(null);
@@ -8,7 +9,17 @@ function ViewAssignments(){
     const [courses, setCourses] = useState(null);
 
     const navigate = useNavigate();
-    async function handleDelete(id) {
+    const [modal, setModal] = useState(null);
+    function handleDelete(id, name) {
+        setModal(<Modal className="delete-msg">
+            <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
+            <div className="options">
+                <button className="btn-yes" onClick={()=>onDelete(id)}>Yes</button>
+                <button className="btn-no" onClick={()=>setModal(null)}>No</button>
+            </div>
+        </Modal>)
+    } 
+    async function onDelete(id) {
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + "assignments/" + id, {
                 method: "delete",
@@ -117,7 +128,7 @@ function ViewAssignments(){
         }
     }
 
-    function Delete({id}) { return (<button className="delete" onClick={()=>handleDelete(id)}>delete?</button>) }
+    function Delete({id,name}) { return (<button className="delete" onClick={()=>handleDelete(id,name)}>delete?</button>) }
     const dataView = []
     if (Array.isArray(data)) { 
         for (const course of courses) {
@@ -129,7 +140,7 @@ function ViewAssignments(){
                         <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a>
                         <label className="completed" htmlFor="completed">completed
                         <input type="checkbox" id="completed" name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/></label>
-                        <Delete id={e._id}/>
+                        <Delete id={e._id} name={e.assignmentTitle}/>
                     </div>
                 )
             }
@@ -151,7 +162,7 @@ function ViewAssignments(){
 
             <input type="date" id="dueDate" name="dueDate" defaultValue={data.dueDate.split("T")[0]} onChange={(e)=>handleChange(e, data)}/>
 
-            <Delete id={data._id}/>
+            <Delete id={data._id} name={data.assignmentTitle}/>
 
             <select name="courseID" id="courseID" defaultValue={data.courseID} onChange={(e)=>handleChange(e, data)}>
                 {courses}
@@ -166,6 +177,7 @@ function ViewAssignments(){
 
     return(
         <div id="view">
+            {modal}
             {dataView}
         </div>
     );

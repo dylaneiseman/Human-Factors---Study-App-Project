@@ -4,13 +4,24 @@ import { useNavigate } from "react-router-dom";
 import NewSet from '@forms/NewSet';
 import NewAssignment from '@forms/NewAssignment';
 import NewCourse from '@forms/NewCourse';
+import Modal from '@components/Modal';
 
 function ViewCourses(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
-
     const navigate = useNavigate();
-    async function handleDelete(id) {
+
+    const [modal, setModal] = useState(null);
+    function handleDelete(id, name) {
+        setModal(<Modal className="delete-msg">
+            <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
+            <div className="options">
+                <button className="btn-yes" onClick={()=>onDelete(id)}>Yes</button>
+                <button className="btn-no" onClick={()=>setModal(null)}>No</button>
+            </div>
+        </Modal>)
+    } 
+    async function onDelete(id) {
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + "courses/" + id, {
                 method: "delete",
@@ -56,14 +67,15 @@ function ViewCourses(){
     
     if (data.length === 0) return <div><a href="/courses/new">Create your first course!</a></div>
 
-    function Delete({id}) { return (<button className="delete" onClick={()=>handleDelete(id)}>delete?</button>) }
+    function Delete({id, name}) { return (<button className="delete" onClick={()=>handleDelete(id, name)}>delete?</button>) }
     return(
         <div id="view">
+            {modal}
             {data.map(e=>
                 (<div className="entry" id={"course-" + e._id}>
                     <a href={"/courses/" + e._id}>{e.courseName}</a> 
                     <div className="options">
-                        <Delete id={e._id}/>
+                        <Delete id={e._id} name={e.courseName}/>
                     </div>
                 </div>)
             )}
@@ -80,7 +92,17 @@ export function OneCourse() {
     const {id} = useParams();
 
     const navigate = useNavigate();
-    async function handleDelete(type, id) {
+    const [modal, setModal] = useState(null);
+    function handleDelete(type, id, name) {
+        setModal(<Modal className="delete-msg">
+            <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
+            <div className="options">
+                <button className="btn-yes" onClick={()=>onDelete(type, id)}>Yes</button>
+                <button className="btn-no" onClick={()=>setModal(null)}>No</button>
+            </div>
+        </Modal>)
+    } 
+    async function onDelete(type, id) {
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + type + "/" + id, {
                 method: "delete",
@@ -170,20 +192,22 @@ export function OneCourse() {
         }
     }
 
-    function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
+    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type,id,name)}>delete?</button>) }
     return(
         <div id="view">
+            {modal}
+
             <form className="details" id="course-details">
                 <input type="text" id="courseName" name="courseName" defaultValue={data.courseName} onChange={(e)=>handleChange(e, data)}/>
                 <input type="number" id="intensityRank" name="intensityRank" defaultValue={data.intensityRank} step="1" min="1" max="5" onChange={(e)=>handleChange(e, data)}/>
-                <Delete type="courses" id={data._id}/>
+                <Delete type="courses" id={data._id} name={data.courseName}/>
             </form>
             
             <div className="lists" id="assignments-list">
                 {assignments.map(e => (e.courseID == id) ?
                     <div className="entry" id={"assign-" + e._id}>
                         <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a> 
-                        <div className="options"><Delete id={e._id} type="assignments"/></div>
+                        <div className="options"><Delete id={e._id} type="assignments" name={e._assignmentTitle}/></div>
                     </div> : ""
                 )}
             </div>
@@ -194,7 +218,7 @@ export function OneCourse() {
                     <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
                     <div className="options">
                         <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
-                        <Delete id={e._id} type="flashcards/sets"/>
+                        <Delete id={e._id} type="flashcards/sets" name={e.setName}/>
                     </div>
                 </div>)}
             </div>
