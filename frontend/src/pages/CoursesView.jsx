@@ -191,8 +191,11 @@ export function OneCourse() {
             
             <div className="lists" id="flashcards-list">
                 {sets.map(e => <div className="entry" id={"set-" + e._id}>
-                    <a href={"/flashcards/sets/" + e._id}>{e.setName}</a> 
-                    <div className="options"><Delete id={e._id} type="flashcards/sets"/></div>
+                    <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
+                    <div className="options">
+                        <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
+                        <Delete id={e._id} type="flashcards/sets"/>
+                    </div>
                 </div>)}
             </div>
             <NewSet courseID={data._id}/>

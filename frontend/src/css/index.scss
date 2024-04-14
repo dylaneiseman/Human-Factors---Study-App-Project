@@ -205,3 +205,7 @@ input[type=submit] {
   flex: 1 100%;
   &:hover {background-color: darken($bg, 5%)}
 }
+
+.play {
+  text-align: center;
+}
