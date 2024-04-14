@@ -20,6 +20,7 @@ function NewCourse() {
             });
             const json = await response.json()
             navigate("/courses/" + json["_id"])
+            window.location.reload();
         } catch (err) {
             console.log(err);
         }

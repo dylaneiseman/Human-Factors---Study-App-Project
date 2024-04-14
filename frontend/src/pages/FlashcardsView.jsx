@@ -5,8 +5,28 @@ import NewSet from '@forms/NewSet';
 
 function ViewFlashcards(){
     const [sets, setSets] = useState(null);
-    const [cards, setCards] = useState(null);
+    const [courses, setCourses] = useState(null);
     const [error, setError] = useState(null);
+    const navigate = useNavigate()
+
+    async function handleDelete(type, id) {
+        try {
+            const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/" + type + "/" + id, {
+                method: "delete",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                }
+            });
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            if (type=="sets") navigate("/flashcards/sets")
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
     
     useEffect(() => {
         async function getSets() {
@@ -27,9 +47,9 @@ function ViewFlashcards(){
                 setError(error);
             }
         }
-        async function getCards() {
+        async function getCourses() {
             try {
-                const response = await fetch(process.env.REACT_APP_API_URL + "flashcards/cards", {
+                const response = await fetch(process.env.REACT_APP_API_URL + "courses", {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
@@ -39,35 +59,43 @@ function ViewFlashcards(){
                     throw new Error(response.statusText);
                 }
                 const json = await response.json();
-                setCards(json);
+                setCourses(json);
             } catch (err) {
                 console.log(err);
                 setError(error);
             }
         }
         getSets();
-        getCards();
+        getCourses();
     }, []);
 
-    if (sets===null || cards===null) return <div>Loading...</div>;
+    if (sets===null || courses===null) return <div>Loading...</div>;
     if (error) return <div>Error: {error.message}</div>;
     if (sets.length === 0) return <div><a href="/flashcards/sets/new">Create your first set!</a></div>
 
+    function Delete({type, id}) { return (<button onClick={()=>handleDelete(type,id)}>delete?</button>) }
+    const dataView = []
+    for (const course of courses) {
+        const assign = [];
+        for (const e of sets) {
+            if (course._id != e.courseID) continue;
+            assign.push(
+                <li id={e._id}>
+                    <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
+                    <Delete type="sets" id={e._id}/>
+                </li>
+            )
+        }
+        if (assign.length === 0) continue;
+        dataView.push(<div className="course" id={course._id}>
+            <a href={"/courses/"+course._id}>{course.courseName}</a>
+            {assign}
+        </div>);
+    }
+
     return(
         <>
-        {sets.map(set => 
-            <div className="set" id={"set-" + set._id}>
-                <a href={"/flashcards/sets/" + set._id}>{set.setName}</a>
-                {cards.map(card=> 
-                    set._id===card.setID ? 
-                    <div className="card" id={"card-" + card._id}>
-                        <div className="card_q">{card.question}</div>
-                        <div className="card_a">{card.answer}</div>
-                    </div> 
-                    : ""
-                )}
-            </div>)
-        }
+        {dataView}
             <NewCard/>
             <NewSet/>
         </>
@@ -148,19 +176,22 @@ export function OneSet(){
     
     // if (cards.length === 0) return <div><a href="/flashcards/cards/new">Create your first card!</a></div>
 
+    function Delete({type, id}) { return (<button onClick={()=>handleDelete(type,id)}>delete?</button>) }
     return(
         <>
         <a href="/flashcards/sets/">All sets</a>
+
         <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/> <button onClick={()=>handleDelete("sets", data._id)}>delete?</button>
         { cards.map(e=>
             <div className="card" id={e._id}>
                 <input className="card_q" name="question" id="question" defaultValue={e.question} onChange={($this)=>handleChange($this, "cards", e._id)}/>
                 <input className="card_a" name="answer" id="answer" defaultValue={e.answer} onChange={($this)=>handleChange($this, "cards", e._id)}/>
-                <button onClick={()=>handleDelete("cards", e._id)}>delete?</button>
+                <Delete id={e._id} type="cards"/>
             </div>
             )
         }
         <NewCard setID={data._id}/>
+
         </>
     )
 }
