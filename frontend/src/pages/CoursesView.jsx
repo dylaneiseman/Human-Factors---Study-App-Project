@@ -173,21 +173,27 @@ export function OneCourse() {
     function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
     return(
         <div id="view">
-            <form id="course-details">
+            <form className="details" id="course-details">
                 <input type="text" id="courseName" name="courseName" defaultValue={data.courseName} onChange={(e)=>handleChange(e, data)}/>
                 <input type="number" id="intensityRank" name="intensityRank" defaultValue={data.intensityRank} step="1" min="1" max="5" onChange={(e)=>handleChange(e, data)}/>
                 <Delete type="courses" id={data._id}/>
             </form>
             
-            <div id="assignments-list">
+            <div className="lists" id="assignments-list">
                 {assignments.map(e => (e.courseID == id) ?
-                    <div className="entry" id={"assign-" + e._id}><a href={"/assignments/" + e._id}>{e.assignmentTitle}</a> <Delete id={e._id} type="assignments"/></div> : ""
+                    <div className="entry" id={"assign-" + e._id}>
+                        <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a> 
+                        <div className="options"><Delete id={e._id} type="assignments"/></div>
+                    </div> : ""
                 )}
             </div>
             <NewAssignment courseID={data._id}/>
             
-            <div id="flashcards-list">
-                {sets.map(e => <div className="entry" id={"set-" + e._id}><a href={"/flashcards/sets/" + e._id}>{e.setName}</a> <Delete id={e._id} type="flashcards/sets"/></div>)}
+            <div className="lists" id="flashcards-list">
+                {sets.map(e => <div className="entry" id={"set-" + e._id}>
+                    <a href={"/flashcards/sets/" + e._id}>{e.setName}</a> 
+                    <div className="options"><Delete id={e._id} type="flashcards/sets"/></div>
+                </div>)}
             </div>
             <NewSet courseID={data._id}/>
         </div>

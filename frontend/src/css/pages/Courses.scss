@@ -4,16 +4,12 @@
 #courses {
     --bg: #{$offbg};
     --c: #{$color-offbg};
+
+    .details { 
+        grid-column: 1/span 2;
+        grid-template-columns: 1fr 40px 25%; 
+    }
+    .lists {
+        margin-top: 10px;
+    }
 }
-
-#course-details {
-    display: grid;
-    grid-template-columns: 1fr 40px 25%;
-    gap: 2px;
-}
-
-#assignments-list {}
-
-#new-assignment {}
-
-#flashcards-list {}

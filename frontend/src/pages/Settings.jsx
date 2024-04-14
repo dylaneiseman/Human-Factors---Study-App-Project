@@ -51,7 +51,9 @@ function Settings() {
         ["--background-color", "Primary background color"],
         ["--text-color", "Primary text color"],
         ["--off-background-color", "Secondary background color"],
-        ["--off-background-color-text", "Secondary text color"]
+        ["--off-background-color-text", "Secondary text color"],
+        ["--form-background-color", "Form background color"],
+        ["--form-text-color", "Form text color"]
     ];
 
     const cssval = (v) => window.getComputedStyle(document.documentElement).getPropertyValue(v);

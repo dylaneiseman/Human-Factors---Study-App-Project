@@ -1,2 +1,24 @@
 /* scss variables */
 @use '@css/SharedVariables.scss' as *;
+
+#assignments {
+    --bg: #{$a2};
+    --c: #{$color-a2};
+    line-height: 1;
+
+    .details { 
+        grid-column: 1/span 2;
+        grid-template-columns: 40px 1fr 40px 20%;
+        align-content: center;
+
+        #courseID {grid-column: 1/span 4;}
+        #description {grid-column: 1/span 4;}
+    }
+    .lists {
+        margin-top: 10px;
+    }
+    .completed { 
+        background: $form;
+        color: $color-form;
+    }
+}

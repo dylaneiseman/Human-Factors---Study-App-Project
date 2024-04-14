@@ -16,6 +16,9 @@
   --off-background-color: #F1F1F1;
   --off-background-text-color: #404040;
 
+  --form-background-color: #fbfbfb;
+  --form-text-color: #404040;
+
   --text-size: 16;
 }
 
@@ -52,21 +55,32 @@ a, button { all: unset; cursor: pointer; }
   font-size: $rem;
 }
 
-form{box-shadow: 0 0 4px $shadow}
-input {
+form {
+  box-shadow: 0 0 4px $shadow;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 1.5px;
+}
+input, textarea, option, select {
   width: 100%;
   padding: 0; margin: 0; border: 0;
   box-sizing: border-box;
   padding: 5px;
   font: 400 rem(.95)/1 'Nunito';
+  background: $form;
+  color: $color-form;
+}
+input[type=date] {
+  cursor: pointer;
+  place-items: center;
 }
 input[type=submit] {
   cursor: pointer;
   padding: 11px;
   transition: .1s ease;
   &:hover {
-    background: var(--background, $bg);
-    color: var(--color, $color);
+    background: darken($form, 5%);
+    color: $color-form;
   }
 }
 
@@ -91,12 +105,12 @@ input[type=submit] {
   background: $bg;
   color: $color;
   margin-left: 30px;
-  display: grid;
-  grid-template-columns:  repeat(auto-fit, minmax(250px,1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 6px;
 }
 #view > form {
-  grid-column: 1/-1;
+  width: 100%;
 }
 .delete{
   text-align: center;
@@ -119,7 +133,9 @@ input[type=submit] {
   border-radius: 3px 3px 0 0;
   box-shadow: 0 0 4px $shadow;
 
-  a {
+  flex: 1 1 max(200px, 100%/3.1);
+
+  > a {
     background: var(--background);
     color: var(--color);
     display: block;
@@ -135,7 +151,7 @@ input[type=submit] {
     flex-wrap: wrap;
     gap: 6px;
     border-top: 1px solid var(--background);
-    * {
+    > * {
       text-transform: unset;
       background: var(--background);
       color: var(--color);
@@ -150,4 +166,39 @@ input[type=submit] {
       }
     }
   }
+}
+
+.details {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 6px;
+  width: 100%;
+  input { 
+    font-size: rem(1.07); 
+    padding: 6px 13px; 
+  }
+  input[type="number"] {padding: 6px;}
+}
+.lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+.completed {
+  display: grid;
+  grid-auto-flow: row;
+  cursor: pointer;
+  align-items: center;
+  input[type="checkbox"] {
+    width: unset; cursor: pointer;
+    margin: 0 6px;
+    font-size: rem(2);
+  }
+}
+.options .delete {
+  background-color: $bg;
+  color: $color;
+  flex: 1 100%;
+  &:hover {background-color: darken($bg, 5%)}
 }
