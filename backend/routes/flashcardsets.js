@@ -14,7 +14,7 @@ const {
 router.get('/', requireAuth, checkAccess('readOwn', 'flashcard'), getAllFlashcardSets);
 router.get('/:id', requireAuth, checkAccess('readOwn', 'flashcard'), getFlashcardSet);
 router.post('/', requireAuth, checkAccess('createOwn', 'flashcard'), createFlashcardSet);
-router.delete('/:id', requireAuth, checkAccess('readOwn', 'flashcard'), deleteFlashcardSet);
+router.delete('/:id', requireAuth, checkAccess('deleteOwn', 'flashcard'), deleteFlashcardSet);
 router.put('/:id', requireAuth, checkAccess('updateOwn', 'flashcard'), updateFlashcardSet);
 
 module.exports = router

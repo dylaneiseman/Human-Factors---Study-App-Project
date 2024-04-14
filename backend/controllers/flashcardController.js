@@ -67,7 +67,7 @@ const deleteFlashcardSet = async (req, res) =>{
     const { id } = req.params
     try{
         const userID = getUserId(req);
-        const flashcardSet = await Flashcard.findOneAndDelete({_id:id , userID: userID })
+        const flashcardSet = await FlashcardSet.findOneAndDelete({_id:id , userID: userID })
         if (!flashcardSet) {
             return res.status(404).json({ error: 'Flashcard set does not exist.' })
         }
