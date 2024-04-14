@@ -71,8 +71,8 @@ function NewCard(args){
                     {sets.map(e=> <option value={e["_id"]}>{e["setName"]}</option>) }
                 </select>
             }
-            <input type='text' id='question' name='question' placeholder='Flashcard Question'/>
-            <input type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
+            <input required type='text' id='question' name='question' placeholder='Flashcard Question'/>
+            <input required type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
             <input type="submit" value="Create Card" />
         </form>
     )

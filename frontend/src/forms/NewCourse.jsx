@@ -29,8 +29,8 @@ function NewCourse() {
     //courseID, courseName, courseTime, intensityRank
     return(
         <form id="new-course" method="post" onSubmit={handleSubmit}>
-            <input type="text" id="courseName" name="courseName" placeholder="Course title"/>
-            <input type="number" id="intensityRank" name="intensityRank" placeholder="1" step="1" min="1" max="5"/>
+            <input required type="text" id="courseName" name="courseName" placeholder="Course title"/>
+            <input required type="number" id="intensityRank" name="intensityRank" placeholder="1" step="1" min="1" max="5"/>
             <input type="submit" value="Create Course" />
         </form>
     )
