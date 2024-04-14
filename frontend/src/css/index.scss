@@ -159,7 +159,7 @@ input[type=submit] {
       padding: 9px 13px;
       display: block;
       font: 500 rem(1)/1 'Nunito';
-      flex: 1;
+      flex: 4 1;
       transition: .13s ease;
       &:hover {
         background: darken(var(--background), 10%)
@@ -195,6 +195,9 @@ input[type=submit] {
     margin: 0 6px;
     font-size: rem(2);
   }
+}
+.options .completed {
+  flex: 1 1;
 }
 .options .delete {
   background-color: $bg;
