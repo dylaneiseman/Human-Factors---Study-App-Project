@@ -82,6 +82,7 @@ function ViewFlashcards(){
             assign.push(
                 <li id={e._id}>
                     <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
+                    <a href={"/flashcards/sets/" + e._id + "/play"} className="play">Play</a>
                     <Delete type="sets" id={e._id}/>
                 </li>
             )
@@ -179,19 +180,17 @@ export function OneSet(){
     function Delete({type, id}) { return (<button className="delete" onClick={()=>handleDelete(type,id)}>delete?</button>) }
     return(
         <div id="view">
-        <a href="/flashcards/sets/">All sets</a>
-
-        <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/> <button onClick={()=>handleDelete("sets", data._id)}>delete?</button>
-        { cards.map(e=>
-            <div className="card" id={e._id}>
-                <input className="card_q" name="question" id="question" defaultValue={e.question} onChange={($this)=>handleChange($this, "cards", e._id)}/>
-                <input className="card_a" name="answer" id="answer" defaultValue={e.answer} onChange={($this)=>handleChange($this, "cards", e._id)}/>
-                <Delete id={e._id} type="cards"/>
-            </div>
-            )
-        }
-        <NewCard setID={data._id}/>
-
+            <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
+            <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/> <button onClick={()=>handleDelete("sets", data._id)}>delete?</button>
+            { cards.map(e=>
+                <div className="card" id={e._id}>
+                    <input className="card_q" name="question" id="question" defaultValue={e.question} onChange={($this)=>handleChange($this, "cards", e._id)}/>
+                    <input className="card_a" name="answer" id="answer" defaultValue={e.answer} onChange={($this)=>handleChange($this, "cards", e._id)}/>
+                    <Delete id={e._id} type="cards"/>
+                </div>
+                )
+            }
+            <NewCard setID={data._id}/>
         </div>
     )
 }
