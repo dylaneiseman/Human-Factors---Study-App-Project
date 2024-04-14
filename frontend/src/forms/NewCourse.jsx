@@ -30,7 +30,7 @@ function NewCourse() {
     return(
         <form id="new-course" method="post" onSubmit={handleSubmit}>
             <input required type="text" id="courseName" name="courseName" placeholder="Course title"/>
-            <input required type="number" id="intensityRank" name="intensityRank" placeholder="1" step="1" min="1" max="5"/>
+            <input required type="number" id="intensityRank" name="intensityRank" placeholder="Course intensity ranking" step="1" min="1" max="5"/>
             <input type="submit" value="Create Course" />
         </form>
     )
