@@ -77,7 +77,7 @@ function ViewAssignments(){
 
     if (error) return <div>Error: {error.message}</div>;
     
-    if (data.length === 0) return <div><a href="/assignments/new">Create your first assignment!</a></div>
+    if (data.length === 0) return <div className="new"><a href="/assignments/new">Create your first assignment!</a></div>
 
     async function handleCompleted(data) {
         try {
@@ -117,7 +117,7 @@ function ViewAssignments(){
         }
     }
 
-    function Delete({id}) { return (<button onClick={()=>handleDelete(id)}>delete?</button>) }
+    function Delete({id}) { return (<button className="delete" onClick={()=>handleDelete(id)}>delete?</button>) }
     const dataView = []
     if (Array.isArray(data)) { 
         for (const course of courses) {
@@ -125,15 +125,16 @@ function ViewAssignments(){
             for (const e of data) {
                 if (course.props.value != e.courseID) continue;
                 assign.push(
-                    <li id={e._id}>
+                    <div className="options" id={e._id}>
                         <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a>
-                        <input type="checkbox" id="completed" name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/>
+                        <label className="completed" htmlFor="completed">completed
+                        <input type="checkbox" id="completed" name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/></label>
                         <Delete id={e._id}/>
-                    </li>
+                    </div>
                 )
             }
             if (assign.length === 0) continue;
-            dataView.push(<div className="course" id={course.props.value}>
+            dataView.push(<div className="entry course" id={course.props.value}>
                 <a href={"/courses/"+course.props.value}>{course.props.children}</a>
                 {assign}
             </div>);
@@ -141,21 +142,30 @@ function ViewAssignments(){
         dataView.push(<NewAssignment/>)
     } else {
         dataView.push(<>
-        <a href="/assignments">All Assignments</a>
+        <div className="details">
+
+        <label className="completed" htmlFor="completed">
+            <input type="checkbox" id="completed" name="completed" defaultChecked={data.completed} onChange={()=>handleCompleted(data)}/></label>
+
+            <input type="text" name="assignmentTitle" id="assignmentTitle" defaultValue={data.assignmentTitle} onChange={(e)=>handleChange(e, data)}/>
+
+            <input type="date" id="dueDate" name="dueDate" defaultValue={data.dueDate.split("T")[0]} onChange={(e)=>handleChange(e, data)}/>
+
+            <Delete id={data._id}/>
+
             <select name="courseID" id="courseID" defaultValue={data.courseID} onChange={(e)=>handleChange(e, data)}>
                 {courses}
             </select>
 
-            <input type="text" name="assignmentTitle" id="assignmentTitle" defaultValue={data.assignmentTitle} onChange={(e)=>handleChange(e, data)}/>
-            <input type="checkbox" id="completed" name="completed" defaultChecked={data.completed} onChange={()=>handleCompleted(data)}/>
             <textarea id="description" name="description" defaultValue={data.description} onChange={(e)=>handleChange(e, data)}></textarea>
-            <input type="date" id="dueDate" name="dueDate" defaultValue={data.dueDate.split("T")[0]} onChange={(e)=>handleChange(e, data)}/>
-            <Delete id={data._id}/>
+
+            
+        </div>
         </>);
     }
 
     return(
-        <div id="assignment-view">
+        <div id="view">
             {dataView}
         </div>
     );

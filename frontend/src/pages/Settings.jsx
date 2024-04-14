@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
-// import "@css/pages/Settings.scss"
+import "@css/pages/Settings.scss"
 
 function Settings() {
     const [style, setStyle] = useOutletContext();
@@ -51,7 +51,9 @@ function Settings() {
         ["--background-color", "Primary background color"],
         ["--text-color", "Primary text color"],
         ["--off-background-color", "Secondary background color"],
-        ["--off-background-color-text", "Secondary text color"]
+        ["--off-background-color-text", "Secondary text color"],
+        ["--form-background-color", "Form background color"],
+        ["--form-text-color", "Form text color"]
     ];
 
     const cssval = (v) => window.getComputedStyle(document.documentElement).getPropertyValue(v);
@@ -69,7 +71,6 @@ function Settings() {
                 <input type="number" step="1" min="10" name="--text-size" defaultValue={cssval("--text-size")} onChange={handleChange}/>
                 <input type="submit" value="Save"/>
             </form>
-
         </div>
     );
 }

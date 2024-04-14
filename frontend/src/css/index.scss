@@ -16,6 +16,9 @@
   --off-background-color: #F1F1F1;
   --off-background-text-color: #404040;
 
+  --form-background-color: #fbfbfb;
+  --form-text-color: #404040;
+
   --text-size: 16;
 }
 
@@ -50,4 +53,152 @@ a, button { all: unset; cursor: pointer; }
   background: $bg;
   color: $color;
   font-size: $rem;
+}
+
+form {
+  box-shadow: 0 0 4px $shadow;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 1.5px;
+}
+input, textarea, option, select {
+  width: 100%;
+  padding: 0; margin: 0; border: 0;
+  box-sizing: border-box;
+  padding: 5px;
+  font: 400 rem(.95)/1 'Nunito';
+  background: $form;
+  color: $color-form;
+}
+input[type=date] {
+  cursor: pointer;
+  place-items: center;
+}
+input[type=submit] {
+  cursor: pointer;
+  padding: 11px;
+  transition: .1s ease;
+  &:hover {
+    background: darken($form, 5%);
+    color: $color-form;
+  }
+}
+
+
+#wrapper > div {
+  box-shadow: 0 0 4px $shadow;
+  border-radius: 8px;
+  background: var(--bg);
+  max-width: 900px;
+  margin: auto;
+}
+.page_h1 {
+  border-radius: 8px 8px 0 0;
+  padding: 25px 25px 20px 34px;
+  color: var(--c);
+  display: block;
+  font: 720 rem(1.3)/1 "Nunito";
+}
+#view {
+  border-radius: 8px 0px 8px 0;
+  padding: 18px;
+  background: $bg;
+  color: $color;
+  margin-left: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#view > form {
+  width: 100%;
+}
+.delete{
+  text-align: center;
+  background-color: var(--bg);
+  color:var(--color);
+  text-transform: uppercase;
+  font: 700 rem(.71)/1 'Nunito Sans';
+  letter-spacing: -.04em;
+  transition: .1s ease;
+  &:hover {
+    background: darken(var(--bg), 3%)
+  }
+}
+.entry {
+  &:nth-of-type(1n) { --background: #{$a1}; --color: #{$color-a1}; }
+  &:nth-of-type(2n) { --background: #{$bg}; --color: #{$color-offbg}; }
+  &:nth-of-type(3n) { --background: #{$a2}; --color: #{$color-a2}; }
+
+  border: 1px solid var(--background);
+  border-radius: 3px 3px 0 0;
+  box-shadow: 0 0 4px $shadow;
+
+  flex: 1 1 max(200px, 100%/3.1);
+
+  > a {
+    background: var(--background);
+    color: var(--color);
+    display: block;
+    padding: 9.5px 12px;
+    font: 500 rem(1.2)/1 'Poppins';
+    border-radius: 3px 3px 0 0;
+  }
+  .options {
+    background: lighten($bg,50%);
+    color: $color;
+    display: flex;
+    padding: 13px 18px;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid var(--background);
+    > * {
+      text-transform: unset;
+      background: var(--background);
+      color: var(--color);
+      border-radius: 4px;
+      padding: 9px 13px;
+      display: block;
+      font: 500 rem(1)/1 'Nunito';
+      flex: 1;
+      transition: .13s ease;
+      &:hover {
+        background: darken(var(--background), 10%)
+      }
+    }
+  }
+}
+
+.details {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 6px;
+  width: 100%;
+  input { 
+    font-size: rem(1.07); 
+    padding: 6px 13px; 
+  }
+  input[type="number"] {padding: 6px;}
+}
+.lists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+.completed {
+  display: grid;
+  grid-auto-flow: row;
+  cursor: pointer;
+  align-items: center;
+  input[type="checkbox"] {
+    width: unset; cursor: pointer;
+    margin: 0 6px;
+    font-size: rem(2);
+  }
+}
+.options .delete {
+  background-color: $bg;
+  color: $color;
+  flex: 1 100%;
+  &:hover {background-color: darken($bg, 5%)}
 }

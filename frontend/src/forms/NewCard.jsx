@@ -73,7 +73,7 @@ function NewCard(args){
             }
             <input type='text' id='question' name='question' placeholder='Flashcard Question'/>
             <input type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
-            <input type="submit" value="Create Flashcard" />
+            <input type="submit" value="Create Card" />
         </form>
     )
 }
