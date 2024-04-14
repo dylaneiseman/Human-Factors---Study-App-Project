@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import NewSet from '@forms/NewSet';
+import NewAssignment from '@forms/NewAssignment';
 
 function ViewCourses(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
+    async function handleDelete(id) {
+        try {
+            const response = await fetch(process.env.REACT_APP_API_URL + "courses/" + id, {
+                method: "delete",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                }
+            });
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     useEffect(() => {
         async function getData() {
@@ -19,15 +40,7 @@ function ViewCourses(){
                     throw new Error(response.statusText);
                 }
                 const json = await response.json();
-                const dataView = []
-                json.forEach(e=>{
-                    dataView.push(
-                        <li id={e._id}>
-                            <a href={"/courses/" + e._id}>{e.courseName}</a>
-                        </li>
-                    )
-                })
-                setData(dataView);
+                setData(json);
             } catch (err) {
                 console.log(err);
                 setError(error);
@@ -42,9 +55,15 @@ function ViewCourses(){
     
     if (data.length === 0) return <div><a href="/courses/new">Create your first course!</a></div>
 
+    function Delete({id}) { return (<button onClick={()=>handleDelete(id)}>delete?</button>) }
     return(
         <div id="course-view">
-            {data}
+            {data.map(e=>
+                (<li id={e._id}>
+                    <a href={"/courses/" + e._id}>{e.courseName}</a> 
+                    <Delete id={e._id}/>
+                </li>)
+            )}
         </div>
     );
 }
@@ -55,6 +74,26 @@ export function OneCourse() {
     const [error, setError] = useState(null);
     const [assignments, setAssignments] = useState(null);
     const {id} = useParams();
+
+    const navigate = useNavigate();
+    async function handleDelete(type, id) {
+        try {
+            const response = await fetch(process.env.REACT_APP_API_URL + type + "/" + id, {
+                method: "delete",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                }
+            });
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            navigate("/courses")
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
 
     useEffect(() => {
         async function getAssignments() {
@@ -70,12 +109,7 @@ export function OneCourse() {
                     throw new Error(response.statusText);
                 }
                 const json = await response.json();
-                const assignmentOptions = [];
-                for(const e of json){
-                    if (e.courseID != id) continue;
-                    assignmentOptions.push(<li><a href={"/assignments/" + e._id}>{e.assignmentTitle}</a></li>)
-                }
-                setAssignments(assignmentOptions);
+                setAssignments(json);
             } catch (err) {
                 console.log(err);
                 setError(error);
@@ -132,16 +166,24 @@ export function OneCourse() {
         }
     }
 
+    function Delete({type, id}) { return (<button onClick={()=>handleDelete(type,id)}>delete?</button>) }
     return(
         <div id="course-view">
             <a href="/courses">All Courses</a>
+
             <input type="text" id="courseName" name="courseName" defaultValue={data.courseName} onChange={(e)=>handleChange(e, data)}/>
             <input type="number" id="intensityRank" name="intensityRank" defaultValue={data.intensityRank} step="1" min="1" max="5" onChange={(e)=>handleChange(e, data)}/>
+            <Delete type="courses" id={data._id}/>
+            
             <ul>
-                {assignments}
+                {assignments.map(e => (e.courseID == id) ?
+                    <li><a href={"/assignments/" + e._id}>{e.assignmentTitle}</a> <Delete id={e._id} type="assignments"/></li> : ""
+                )}
             </ul>
+            <NewAssignment courseID={data._id}/>
+            
             <ul>
-                {sets.map(e => <li>{e.setName}</li>)}
+                {sets.map(e => <li><a href={"/flashcards/sets/" + e._id}>{e.setName}</a> <Delete id={e._id} type="flashcards/sets"/></li>)}
             </ul>
             <NewSet courseID={data._id}/>
         </div>

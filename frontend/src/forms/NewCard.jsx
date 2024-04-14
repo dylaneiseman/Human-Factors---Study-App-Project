@@ -25,7 +25,7 @@ function NewCard(args){
                 }
             });
             const json = await response.json()
-            navigate("/flashcards/sets/" + json["setID"])
+            if(!hasID) navigate("/flashcards/sets/" + json["setID"])
             window.location.reload()
         } catch (err) {
             console.log(err);

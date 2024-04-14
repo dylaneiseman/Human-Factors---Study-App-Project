@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
-function NewAssignment() {
+function NewAssignment(args) {
     const defaultDate = new Date().toISOString().split("T")[0];
     const navigate = useNavigate();
+
+    const [courses, setCourses] = useState(null);
+    const [error, setError] = useState(null);
+
+    const { courseID } = args
+    const hasID = courseID!==undefined && courseID!==null
     
     async function handleSubmit(e) {
         e.preventDefault();
@@ -20,15 +26,12 @@ function NewAssignment() {
                 }
             });
             const json = await response.json()
-            navigate("/assignments/" + json["_id"])
+            if(!hasID) navigate("/assignments/" + json["_id"])
+            window.location.reload();
         } catch (err) {
             console.log(err);
         }
     }
-
-    const [courses, setCourses] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         async function getCourses() {
@@ -43,32 +46,33 @@ function NewAssignment() {
                     console.log(response.json());
                     throw new Error(response.statusText);
                 }
-                setCourses(await response.json());
-                setLoading(false);
+                const json = await response.json()
+                setCourses(json);
             } catch (err) {
                 console.log(err);
                 setError(error);
-                setLoading(false);
             }
         }
-        getCourses();
+        if(!hasID) {
+            getCourses();
+        } else {
+            setCourses(courseID)
+        }
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (courses===null) return <div>Loading...</div>;
 
     if (error) return <div>Error: {error.message}</div>;
 
     if (courses.length === 0) return <div><a href="/courses/new">Create a course first!</a></div>
     
-    const courseOptions = [];
-    courses.forEach(e=>{
-        courseOptions.push(<option value={e["_id"]}>{e["courseName"]}</option>)
-    })
     return(
         <form id="new-assignment" method="post" onSubmit={handleSubmit}>
-            <select name="courseID" id="courseID">
-                {courseOptions}
-            </select>
+            {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> : <select name="courseID" id="courseID">
+                {courses.map(e=>
+                    <option value={e["_id"]}>{e["courseName"]}</option>
+                )}
+            </select>}
             <input type="text" id="assignmentTitle" name="assignmentTitle" placeholder="Assignment title"/>
             <textarea id="description" name="description" placeholder="Description of assignment"></textarea>
             <input type="date" id="dueDate" name="dueDate" defaultValue={defaultDate}/>

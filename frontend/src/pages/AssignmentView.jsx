@@ -1,10 +1,31 @@
+import NewAssignment from '@forms/NewAssignment';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 
 function ViewAssignments(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [courses, setCourses] = useState(null);
-    
+
+    const navigate = useNavigate();
+    async function handleDelete(id) {
+        try {
+            const response = await fetch(process.env.REACT_APP_API_URL + "assignments/" + id, {
+                method: "delete",
+                headers: {
+                    'Content-Type': 'application/json',
+                    "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                }
+            });
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            window.location.reload();
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useEffect(() => {
         async function getCourses() {
             try {
@@ -96,6 +117,7 @@ function ViewAssignments(){
         }
     }
 
+    function Delete({id}) { return (<button onClick={()=>handleDelete(id)}>delete?</button>) }
     const dataView = []
     if (Array.isArray(data)) { 
         for (const course of courses) {
@@ -106,6 +128,7 @@ function ViewAssignments(){
                     <li id={e._id}>
                         <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a>
                         <input type="checkbox" id="completed" name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/>
+                        <Delete id={e._id}/>
                     </li>
                 )
             }
@@ -115,16 +138,19 @@ function ViewAssignments(){
                 {assign}
             </div>);
         }
+        dataView.push(<NewAssignment/>)
     } else {
         dataView.push(<>
         <a href="/assignments">All Assignments</a>
             <select name="courseID" id="courseID" defaultValue={data.courseID} onChange={(e)=>handleChange(e, data)}>
                 {courses}
             </select>
+
             <input type="text" name="assignmentTitle" id="assignmentTitle" defaultValue={data.assignmentTitle} onChange={(e)=>handleChange(e, data)}/>
             <input type="checkbox" id="completed" name="completed" defaultChecked={data.completed} onChange={()=>handleCompleted(data)}/>
             <textarea id="description" name="description" defaultValue={data.description} onChange={(e)=>handleChange(e, data)}></textarea>
             <input type="date" id="dueDate" name="dueDate" defaultValue={data.dueDate.split("T")[0]} onChange={(e)=>handleChange(e, data)}/>
+            <Delete id={data._id}/>
         </>);
     }
 

@@ -25,7 +25,7 @@ function NewSet(args){
                 }
             });
             const json = await response.json()
-            navigate("/flashcards/sets/" + json["_id"])
+            if(!hasID) navigate("/flashcards/sets/" + json["_id"])
             window.location.reload()
         } catch (err) {
             console.log(err);
