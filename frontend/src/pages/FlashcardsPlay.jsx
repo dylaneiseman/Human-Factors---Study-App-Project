@@ -158,6 +158,9 @@ function Play(){
             <div id="card-counter">
                 Card {currentCard+1} of {cardList.length}
             </div>
+            <div className="error">
+                {errorMessage}
+            </div>
         </div>
     )
 }
