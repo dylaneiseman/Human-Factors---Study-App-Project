@@ -83,7 +83,7 @@ const getAssignmentsByCourse = async (req, res) => {
 const getToDoList = async (req, res) => {
     try {
         const userID = getUserId(req)
-        const assignments = await Assignment.find({ userID }).sort({ dueDate: 1 })
+        const assignments = await Assignment.find({ userID }).collation({locale:'en',strength: 2}).sort({ dueDate: 1 })
         res.status(200).json(assignments);
     } catch (error) {
         res.status(400).json({ error: error.message });

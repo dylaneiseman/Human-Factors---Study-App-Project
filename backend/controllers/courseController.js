@@ -7,7 +7,7 @@ const {getUserId} = require("../helpers/getUserId")
 const getAllCourses = async (req, res) => {
 	try{
 		const userID = getUserId(req)
-		const courses = await Course.find({ userID }).sort({ createdAt: -1 })
+		const courses = await Course.find({ userID }).collation({locale:'en',strength: 2}).sort({ courseName: 1 })
 		res.status(200).json(courses)
 	} catch (error) {
         res.status(400).json({ error: error.message });
@@ -23,7 +23,7 @@ const getCourse = async (req, res) => {
 			return res.status(404).json({error: 'The course does not exist.'})
 		}
 		const course = await Course.findOne({_id: id, userID})
-		const sets = await Set.find({courseID: id, userID: userID}).sort({createdAt:-1});
+		const sets = await Set.find({courseID: id, userID: userID}).collation({locale:'en',strength: 2}).sort({setName: 1});
 		if (!course) {
 			return res.status(404).json({error: 'The course does not exist.'})
 		}

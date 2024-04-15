@@ -102,8 +102,8 @@ const getFlashcardSet = async (req, res) =>{
 	}
     try{
         const userID = getUserId(req)
-        const cards = await Flashcard.find({setID: id, userID: userID}).sort({createdAt:1});
-        const set = await FlashcardSet.findOne({_id: id, userID: userID}).sort({createdAt:-1});
+        const cards = await Flashcard.find({setID: id, userID: userID}).collation({locale:'en',strength: 2}).sort({createdAt:1});
+        const set = await FlashcardSet.findOne({_id: id, userID: userID}).collation({locale:'en',strength: 2}).sort({setName:1});
         res.status(200).json({cards: cards, set: set});
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -113,7 +113,7 @@ const getFlashcardSet = async (req, res) =>{
 const getAllFlashcards = async (req, res) => {
     try {
         const userID = getUserId(req)
-        const flashcard = await Flashcard.find({userID: userID}).sort({createdAt:1});
+        const flashcard = await Flashcard.find({userID: userID}).collation({locale:'en',strength: 2}).sort({createdAt:1});
         res.status(200).json(flashcard);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -123,7 +123,7 @@ const getAllFlashcards = async (req, res) => {
 const getAllFlashcardSets = async (req, res) =>{
     try{
         const userID = getUserId(req)
-        const flashcardSets = await FlashcardSet.find({userID: userID}).sort({createdAt:-1});
+        const flashcardSets = await FlashcardSet.find({userID: userID}).collation({locale:'en',strength: 2}).sort({setName:1});
         res.status(200).json(flashcardSets);
     } catch (error) {
         res.status(400).json({ error: error.message });
