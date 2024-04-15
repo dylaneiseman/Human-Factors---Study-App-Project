@@ -1,0 +1,12 @@
+/* scss variables */
+@use '@css/SharedVariables.scss' as *;
+
+#wrapper .loading-page{ background: $bg; width: 100%; max-width: unset; }
+.not-found .modal-inside {
+  all: unset;
+  font: 700 rem(2)/1 "Nunito";
+
+  button:hover {
+    background: darken(var(--background), 10%);
+  }
+}
