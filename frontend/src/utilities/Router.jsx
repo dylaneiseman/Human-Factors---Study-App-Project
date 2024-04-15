@@ -35,19 +35,19 @@ function Pages() {
                     <Route path="/home" element={<Home/>}/>
                     <Route path="/courses" element={<Courses/>}>
                         <Route path=":id" element={<OneCourse/>}/>
-                        <Route path="new" element={<NewCourse/>}/>
+                        <Route path="new" element={<NewCourse open/>}/>
                         <Route path="*" element={<Navigate to="/courses"/>}/>
                         <Route index element={<ViewCourses/>}/>
                     </Route>
                     <Route path="/assignments" element={<Assignments/>}>
                         <Route path=":id" element={<ViewAssignments/>}/>
-                        <Route path="new" element={<NewAssignment/>}/>
+                        <Route path="new" element={<NewAssignment open/>}/>
                         <Route path="*" element={<Navigate to="/assignments"/>}/>
                         <Route index element={<ViewAssignments/>}/>
                     </Route>
                     <Route path="/flashcards" element={<Flashcards/>}>
-                        <Route path="cards/new" element={<NewCard/>}/>
-                        <Route path="sets/new" element={<NewSet/>}/>
+                        <Route path="cards/new" element={<NewCard open/>}/>
+                        <Route path="sets/new" element={<NewSet open/>}/>
                         <Route path="sets/:id" element={<OneSet/>}/>
                         <Route path="sets/:id/play" element={<Play/>}/>
                         <Route path="sets" element={<ViewFlashcards/>}/>

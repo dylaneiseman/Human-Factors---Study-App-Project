@@ -65,6 +65,7 @@ function NewCard(args){
     if (sets.length === 0) return <div><a href="/flashcards/set/new">Create a set first!</a></div>
 
     return(
+        <details open={args.open}><summary>New Flash Card</summary>
         <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
             {hasID ? <input type='hidden' id='setID' name='setID' value={setID}/> :
                 <select name="setID" id="setID">
@@ -75,6 +76,7 @@ function NewCard(args){
             <input required type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
             <input type="submit" value="Create Card" />
         </form>
+        </details>
     )
 }
 

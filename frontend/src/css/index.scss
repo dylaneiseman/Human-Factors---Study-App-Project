@@ -279,5 +279,30 @@ input[type=submit] {
 }
 
 .details { order: 1 }
-form { order: 2 }
+details { order: 2 }
 .entry, .lists { order: 3 }
+
+
+
+details { width: 100%; }
+summary {
+  background: darken($offbg, 4%);
+  color: $color-offbg;
+  padding: 11px;
+  border-radius: 3px;
+  box-shadow: 0 0 2px $shadow;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font: 700 rem(.95)/1 "Nunito";
+  letter-spacing: -.04em;
+  transition: .35s ease;
+  &:hover { 
+    background: mix( darken($offbg, 4%), var(--bg), 80% );
+    color: mix( $color-offbg, var(--c), 80% );
+  }
+  &::marker { display: none; content:''; }
+}
+details[open] summary {
+  background: lighten(var(--bg), 10%);
+  color: var(--c);
+}

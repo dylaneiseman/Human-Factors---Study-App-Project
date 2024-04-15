@@ -67,6 +67,7 @@ function NewAssignment(args) {
     if (courses.length === 0) return <div><a href="/courses/new">Create a course first!</a></div>
     
     return(
+        <details open={args.open}><summary>New Assignment</summary>
         <form id="new-assignment" method="post" onSubmit={handleSubmit}>
             {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> : <select name="courseID" id="courseID">
                 {courses.map(e=>
@@ -78,6 +79,7 @@ function NewAssignment(args) {
             <input required type="date" id="dueDate" name="dueDate" defaultValue={defaultDate}/>
             <input type="submit" value="Create Assignment" />
         </form>
+        </details>
     )
 }
 

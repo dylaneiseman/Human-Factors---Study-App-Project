@@ -66,6 +66,7 @@ function NewSet(args){
     if (courses.length === 0) return <div><a href="/courses/new">Create a course first!</a></div>
 
     return(
+        <details open={args.open}><summary>New Set</summary>
         <form id='new-flashcard-set' method='post' onSubmit={handleSubmit}>
             {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> :
                 <select name="courseID" id="courseID">
@@ -75,6 +76,7 @@ function NewSet(args){
             <input required type='text' id='setName' name='setName' placeholder='Set name'/>
             <input required type="submit" value="Create Flashcard Set" />
         </form>
+        </details>
     )
 }
 
