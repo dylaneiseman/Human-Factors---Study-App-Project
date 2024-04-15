@@ -99,15 +99,15 @@ function ViewFlashcards(){
         for (const e of sets) {
             if (course._id != e.courseID) continue;
             assign.push(
-                <li id={e._id}>
+                <div className="options" id={e._id}>
                     <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
                     <a href={"/flashcards/sets/" + e._id + "/play"} className="play">Play</a>
                     <Delete type="sets" id={e._id} name={e.setName}/>
-                </li>
+                </div>
             )
         }
         if (assign.length === 0) continue;
-        dataView.push(<div className="course" id={course._id}>
+        dataView.push(<div className="entry course" id={course._id}>
             <a href={"/courses/"+course._id}>{course.courseName}</a>
             {assign}
         </div>);
@@ -116,7 +116,7 @@ function ViewFlashcards(){
     return(
         <div id="view">
         {dataView}
-            <NewCard/>
+            {/* <NewCard/> */}
             <NewSet/>
         {modal}
         </div>
@@ -210,16 +210,21 @@ export function OneSet(){
     function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}>delete?</button>) }
     return(
         <div id="view">
-            <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
-            <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/> <button onClick={()=>handleDelete("sets", data._id)}>delete?</button>
+            <div className="details">
+                <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/>
+                <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
+                <button className="delete" onClick={()=>handleDelete("sets", data._id)}>delete?</button>
+            </div>
+            
             { cards.map(e=>
-                <div className="card" id={e._id}>
+                <div className="entry card" id={e._id}>
                     <input className="card_q" name="question" id="question" defaultValue={e.question} onChange={($this)=>handleChange($this, "cards", e._id)}/>
                     <input className="card_a" name="answer" id="answer" defaultValue={e.answer} onChange={($this)=>handleChange($this, "cards", e._id)}/>
                     <Delete id={e._id} type="cards" name="this card"/>
                 </div>
                 )
             }
+            
             <NewCard setID={data._id}/>
             {modal}
         </div>

@@ -102,18 +102,22 @@ input[type=submit] {
 #view > form {
   width: 100%;
 }
-.delete{
+.delete, .play{
   text-align: center;
-  background-color: var(--bg);
-  color:var(--color);
+  background-color: $offbg;
+  color: $color-offbg;
   text-transform: uppercase;
   font: 700 rem(.71)/1 'Nunito Sans';
   letter-spacing: -.04em;
   transition: .1s ease;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
   &:hover {
-    background: darken(var(--bg), 3%)
+    background: darken($offbg, 3%)
   }
 }
+.play { background-color: var(--bg);}
 .entry {
   &:nth-of-type(1n) { --background: #{$a1}; --color: #{$color-a1}; }
   &:nth-of-type(2n) { --background: #{$bg}; --color: #{$color-offbg}; }
@@ -122,7 +126,7 @@ input[type=submit] {
   border: 1px solid var(--background);
   border-radius: 3px 3px 0 0;
   box-shadow: 0 0 4px $shadow;
-
+  display: grid;
   flex: 1 1 max(200px, 100%/3.1);
 
   > a {
@@ -147,7 +151,8 @@ input[type=submit] {
       color: var(--color);
       border-radius: 4px;
       padding: 9px 13px;
-      display: block;
+      display: grid;
+      align-items: center;
       font: 500 rem(1)/1 'Nunito';
       flex: 4 1;
       transition: .13s ease;
@@ -188,6 +193,7 @@ input[type=submit] {
 }
 .options .completed {
   flex: 1 1;
+  grid-template-columns: auto auto;
 }
 .options .delete {
   background-color: $bg;
@@ -198,6 +204,7 @@ input[type=submit] {
 
 .play {
   text-align: center;
+  flex: 1 1 !important;
 }
 
 #view {
@@ -209,6 +216,12 @@ input[type=submit] {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+#view > .entry {
+  flex: 1 1 100%;
+}
+#courses #view > .entry {
+  flex: 1 1 max(200px, 100%/3.1);;
 }
 
 .modal {
@@ -264,3 +277,7 @@ input[type=submit] {
     }
   }
 }
+
+.details { order: 1 }
+form { order: 2 }
+.entry, .lists { order: 3 }

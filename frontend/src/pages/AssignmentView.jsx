@@ -138,8 +138,8 @@ function ViewAssignments(){
                 assign.push(
                     <div className="options" id={e._id}>
                         <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a>
-                        <label className="completed" htmlFor="completed">completed
-                        <input type="checkbox" id="completed" name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/></label>
+                        <label className="completed" htmlFor={"c-" + e._id}>completed
+                        <input type="checkbox" id={"c-" + e._id} name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/></label>
                         <Delete id={e._id} name={e.assignmentTitle}/>
                     </div>
                 )

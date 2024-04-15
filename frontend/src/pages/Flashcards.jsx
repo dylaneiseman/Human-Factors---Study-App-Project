@@ -4,7 +4,7 @@ import '@css/pages/Flashcards.scss';
 function Flashcards(){
     return(
         <div id="flashcards">
-            <a className="page_h1" href="/flashcards/sets">Flashcard sets</a>
+            <a className="page_h1" href="/flashcards/sets">Flashcard Sets</a>
             <Outlet/>
         </div>
     )

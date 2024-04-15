@@ -11,6 +11,7 @@ function Play(){
     // const [groupConfirm, setGroupConfirm] = useState(null);
     const [error, setError] = useState(null);
     const {id} = useParams();
+    const navigate = useNavigate();
     // const navigate = useNavigate();
 
     useEffect( () => {
@@ -42,7 +43,7 @@ function Play(){
 
     if (error) return <div>Error: {error.message}</div>;
     
-    if (cardList.length === 0) return <div><a href={"/flashcards/sets/" + id}>Create your first flashcard!</a></div>
+    if (cardList.length === 0) return navigate("/flashcards/sets/" + id)
 
     function UpdateText(index){
         if(showQuestion===1){
