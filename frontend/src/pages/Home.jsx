@@ -19,13 +19,12 @@ function Home(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const json = await response.json();
                 setData(json.length)
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         getData();

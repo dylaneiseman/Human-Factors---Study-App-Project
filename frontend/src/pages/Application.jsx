@@ -22,11 +22,10 @@ function Application() {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
-                }
                 const json = await response.json();
+                if (!response.ok) {
+                    throw new Error(json)
+                }
                 if(json.theme) {
                     for(const [key, value] of Object.entries(json.theme)) {
                         document.documentElement.style.setProperty(key, value);
@@ -35,8 +34,7 @@ function Application() {
                 setData(json);
                 setLoading(false);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
                 setLoading(false);
             }
         }

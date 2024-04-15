@@ -26,11 +26,12 @@ function NewAssignment(args) {
                     "Content-Type": "application/json"
                 }
             });
+            if (!response.ok) throw new Error(await response.json())
             const json = await response.json()
             if(!hasID) navigate("/assignments/" + json["_id"])
             window.location.reload();
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 
@@ -43,15 +44,11 @@ function NewAssignment(args) {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
-                }
+                if (!response.ok) throw new Error(await response.json())
                 const json = await response.json()
                 setCourses(json);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         if(!hasID) {
@@ -63,24 +60,27 @@ function NewAssignment(args) {
 
     if (courses===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
 
-    if (courses.length === 0) return <div><a href="/courses/new">Create a course first!</a></div>
+    if (courses.length === 0) return <div id="view"><div className="error"><a href="/courses/new">Create a course first!</a></div></div>
     
     return(
-        <details open={args.open}><summary>New Assignment</summary>
-        <form id="new-assignment" method="post" onSubmit={handleSubmit}>
-            {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> : <select name="courseID" id="courseID">
-                {courses.map(e=>
-                    <option value={e["_id"]}>{e["courseName"]}</option>
-                )}
-            </select>}
-            <input required type="text" id="assignmentTitle" name="assignmentTitle" placeholder="Assignment title"/>
-            <textarea id="description" name="description" placeholder="Description of assignment"></textarea>
-            <input required type="date" id="dueDate" name="dueDate" defaultValue={defaultDate}/>
-            <input type="submit" value="Create Assignment" />
-        </form>
-        </details>
+        <div id="view">
+            <details open={args.open}><summary>New Assignment</summary>
+            <form id="new-assignment" method="post" onSubmit={handleSubmit}>
+                {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> : <select name="courseID" id="courseID">
+                    {courses.map(e=>
+                        <option value={e["_id"]}>{e["courseName"]}</option>
+                    )}
+                </select>}
+                <input required type="text" id="assignmentTitle" name="assignmentTitle" placeholder="Assignment title"/>
+                <textarea id="description" name="description" placeholder="Description of assignment"></textarea>
+                <input required type="date" id="dueDate" name="dueDate" defaultValue={defaultDate}/>
+                <input type="submit" value="Create Assignment" />
+            </form>
+            </details>
+        </div>
+        
     )
 }
 

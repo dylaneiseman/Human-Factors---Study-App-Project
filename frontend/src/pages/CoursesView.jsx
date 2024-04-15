@@ -10,8 +10,9 @@ import Loading from '@pages/Loading';
 function ViewCourses(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
-
     const [modal, setModal] = useState(null);
+    const navigate = useNavigate();
+    
     function handleDelete(id, name) {
         setModal(<Modal className="delete-msg">
             <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
@@ -31,11 +32,11 @@ function ViewCourses(){
                 }
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             window.location.reload();
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 
@@ -48,14 +49,13 @@ function ViewCourses(){
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
                 const json = await response.json();
+                if (!response.ok) {
+                    throw new Error(json)
+                }
                 setData(json);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         getData();
@@ -63,10 +63,10 @@ function ViewCourses(){
 
     if (data === null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
     
-    if (data.length === 0) return <div><a href="/courses/new">Create your first course!</a></div>
-
+    if (data.length === 0) return navigate("/courses/new");
+    
     function Delete({id, name}) { return (<button className="delete" onClick={()=>handleDelete(id, name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     return(
         <div id="view">
@@ -112,12 +112,12 @@ export function OneCourse() {
                 }
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             navigate("/courses")
             window.location.reload();
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 
@@ -130,20 +130,17 @@ export function OneCourse() {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
-                }
                 const json = await response.json();
+                if (!response.ok) {
+                    setError(json);
+                    return false;
+                }
                 setAssignments(json);
             } catch (err) {
                 console.log(err);
                 setError(error);
             }
         }
-        getAssignments();
-    }, []);
-    useEffect(() => {
         async function getData() {
             try {
                 const response = await fetch(process.env.REACT_APP_API_URL + window.location.pathname.slice(1), {
@@ -152,26 +149,25 @@ export function OneCourse() {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    throw new Error(response.statusText);
-                }
-                const {course, sets} = await response.json();
+                const json = await response.json();
+                if (!response.ok) 
+                    throw new Error(json)
+                const {course, sets} = json;
                 setData(course);
                 setSets(sets);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
+                setData("")
             }
         }
+        getAssignments();
         getData();
     }, []);
 
     if (data===null || assignments===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
     
-    if (data.length === 0) return <div><a href="/courses/new">Create your first course!</a></div>
-
     async function handleChange(e, data) {
         const body = {}
         body[e.target.name] = e.target.value;

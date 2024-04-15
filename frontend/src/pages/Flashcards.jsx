@@ -6,7 +6,7 @@ function Flashcards(){
     return(
         <div id="flashcards">
             <Back/>
-            <a className="page_h1" href="/flashcards/sets">Flashcard Sets</a>
+            <a className="page_h1" href="/flashcards/sets">Flashcards</a>
             <Outlet/>
         </div>
     )

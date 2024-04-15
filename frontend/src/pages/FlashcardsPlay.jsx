@@ -16,9 +16,7 @@ function Play(){
     // const [cardConfirm, setCardConfirm] = useState(null);
     // const [groupConfirm, setGroupConfirm] = useState(null);
     const [error, setError] = useState(null);
-    const {id} = useParams();
-    const navigate = useNavigate();
-    // const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect( () => {
         async function GetCards(){
@@ -30,7 +28,7 @@ function Play(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const { cards, set } = await response.json();
                 setCardList(cards);
@@ -39,7 +37,6 @@ function Play(){
                     setDisplayedText(cards[currentCard].question);
                 }
             } catch(error) {
-                console.log(error);
                 setError(error);
             }
         }
@@ -53,9 +50,8 @@ function Play(){
     if (cardList.length === 0) return (
         <div id="view">
             <div className="error">Please create flash cards for this set first</div>
-        <NewCard setID={set._id}/>
+            <NewCard setID={ id }/>
         </div>
-        
     )
 
     const UpdateText = (index, f = showQuestion) => {

@@ -5,9 +5,7 @@
     --bg: #{$offbg};
     --c: #{$color-offbg};
 
-    .details { 
-        grid-column: 1/span 2;
-        grid-template-columns: 1fr 18% 15%; 
+    .details {
         width: 100%;
     }
     .lists {
@@ -19,5 +17,5 @@
         --background: $offbg;
         --color: $color-offbg;
     }
-    .entry .delete { padding: 10px; }
+    .entry .delete { padding: 10px; width: 100%; }
 }

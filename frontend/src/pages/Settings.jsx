@@ -6,6 +6,7 @@ import "@css/pages/Settings.scss"
 function Settings() {
     const context = useOutletContext();
     const [style, setStyle] = context._style;
+    const [error, setError] = null();
 
     async function handleSubmit(e) {
         try {
@@ -22,14 +23,13 @@ function Settings() {
                 body: JSON.stringify({theme: formJson})
             });
             if (!response.ok) {
-                console.log(response.json());
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             const json = await response.json();
             setStyle({...style, ...json.theme})
             window.location.reload()
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 
@@ -58,6 +58,8 @@ function Settings() {
     ];
 
     const cssval = (v) => window.getComputedStyle(document.documentElement).getPropertyValue(v);
+
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
 
     return(
         <div id="settings">

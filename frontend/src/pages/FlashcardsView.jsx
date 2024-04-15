@@ -9,8 +9,9 @@ function ViewFlashcards(){
     const [sets, setSets] = useState(null);
     const [courses, setCourses] = useState(null);
     const [error, setError] = useState(null);
-    const navigate = useNavigate()
     const [modal, setModal] = useState(null);
+
+    const navigate = useNavigate()
 
     //<div>
     //             <label>Are you sure you want to delete this flashcard set?</label>
@@ -39,12 +40,12 @@ function ViewFlashcards(){
                 }
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             if (type=="sets") navigate("/flashcards/sets")
             window.location.reload();
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
     
@@ -58,13 +59,12 @@ function ViewFlashcards(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const json = await response.json();
                 setSets(json);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         async function getCourses() {
@@ -76,13 +76,12 @@ function ViewFlashcards(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const json = await response.json();
                 setCourses(json);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         getSets();
@@ -91,7 +90,7 @@ function ViewFlashcards(){
 
     if (sets===null || courses===null) return <Loading/>;
     if (error) return <div>Error: {error.message}</div>;
-    if (sets.length === 0) return <div><a href="/flashcards/sets/new">Create your first set!</a></div>
+    if (sets.length === 0) return navigate("/flashcards/sets/new")
 
     function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     const dataView = []
@@ -150,12 +149,12 @@ export function OneSet(){
                 }
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             if (type=="sets") navigate("/flashcards/sets")
             window.location.reload();
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 
@@ -169,14 +168,13 @@ export function OneSet(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const {set, cards} = await response.json();
                 setData(set);
                 setCards(cards);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         getData();
@@ -204,7 +202,7 @@ export function OneSet(){
 
     if (data===null || cards===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
     
     // if (cards.length === 0) return <div><a href="/flashcards/cards/new">Create your first card!</a></div>
 

@@ -13,14 +13,14 @@ const createAssignment = async (req, res) => {
         // check to prevent users from creating assignments in other courses
         const course = await Course.findOne({ _id: courseID, userID: userID })
         if (!course) {
-            return res.status(403).json({ error: 'You do not have permission to add assignments to this course.' })
+            return res.status(403).json( 'You do not have permission to add assignments to this course.' )
         }
 
         // if check passes, proceed with creating assignment
 		const assignment = await Assignment.create({ courseID, assignmentTitle, description, dueDate, userID })
 		res.status(200).json(assignment)
 	} catch (error) {
-		res.status(400).json({ error: error.message })
+		res.status(400).json(error.message)
 	}
 }
 
@@ -31,7 +31,7 @@ const updateAssignment = async (req, res) => {
     const updateData = req.body
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
-		return res.status(404).json({ error: 'The assignment does not exist.' })
+		return res.status(404).json( 'Assignment does not exist.' )
 	}
 
     try {
@@ -39,43 +39,49 @@ const updateAssignment = async (req, res) => {
         const assignment = await Assignment.findOneAndUpdate({ _id: id, userID: userID }, updateData, {new: true});
         res.status(200).json(assignment);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json(error.message);
     }
 }
 
 // delete an assignment by ID
 const deleteAssignment = async (req, res) => {
     const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).json( 'Assignment does not exist.' )
+	}
     try {
         const userID = getUserId(req)
         const assignment = await Assignment.findOneAndDelete({_id:id , userID: userID })
         if (!assignment) {
-            return res.status(404).json({ error: 'This assignment does not exist.' })
+            return res.status(404).json('Assignment does not exist.')
         }
-        res.status(200).json({ message: 'The assignment was deleted successfully.' })
+        res.status(200).json('Assignment was deleted successfully.')
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json(error.message);
     }
 };
 
 // get all assignments by course
 const getAssignmentsByCourse = async (req, res) => {
     const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).json( 'Course does not exist.' )
+	}
     try {
         const userID = getUserId(req)
         // check to prevent users from getting assignments from other courses
         const course = await Course.findOne({ _id: id, userID })
         if (!course) {
-            return res.status(403).json({ error: 'You do not have permission to see assignments from this course.' })
+            return res.status(403).json( 'You do not have permission to see assignments from this course.' )
         }
 
         const assignments = await Assignment.find({ courseID: id, userID });
         if (assignments.length === 0) {
-            return res.status(404).json({ error: 'No assignments found for this course.' });
+            return res.status(404).json( 'No assignments found for this course.' );
         }
         res.status(200).json(assignments);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json(error.message);
     }
 };
 
@@ -86,22 +92,25 @@ const getToDoList = async (req, res) => {
         const assignments = await Assignment.find({ userID }).collation({locale:'en',strength: 2}).sort({ dueDate: 1 })
         res.status(200).json(assignments);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json(error.message);
     }
 };
 
 // get an assignment by ID
 const getAssignment = async (req, res) => {
     const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+		return res.status(404).json( 'Assignment does not exist.' )
+	}
     try {
         const userID = getUserId(req)
         const assignment = await Assignment.findOne({_id: id, userID: userID})
         if (!assignment) {
-            return res.status(404).json({ error: 'This assignment does not exist.' });
+            return res.status(404).json( 'Assignment does not exist.' );
         }
         res.status(200).json(assignment);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json(error.message);
     }
 };
 
