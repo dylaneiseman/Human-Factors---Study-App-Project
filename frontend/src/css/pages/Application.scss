@@ -60,3 +60,150 @@
     background: $bg;
     color: $color;
 }
+
+#wrapper > div {
+    box-shadow: 0 0 4px $shadow;
+    border-radius: 8px;
+    background: var(--bg);
+    max-width: 900px;
+    margin: auto;
+  }
+  .page_h1 {
+    border-radius: 8px 8px 0 0;
+    padding: 25px 25px 20px 34px;
+    color: var(--c);
+    display: inline-block;
+    font: 720 rem(1.3)/1 "Nunito";
+  }
+  #back-btn {
+    padding-left: 30px;
+  }
+  #view > form {
+    width: 100%;
+  }
+  .delete, .play{
+    text-align: center;
+    background-color: $offbg;
+    color: $color-offbg;
+    text-transform: uppercase;
+    font: 700 rem(.71)/1 'Nunito Sans';
+    letter-spacing: -.04em;
+    transition: .1s ease;
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-auto-columns: min-content;
+    gap: 10px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    &:hover {
+      background: darken($offbg, 3%)
+    }
+  }
+  .play { background-color: var(--bg);}
+  .entry {
+    &:nth-of-type(1n) { --background: #{$a1}; --color: #{$color-a1}; }
+    &:nth-of-type(2n) { --background: #{$bg}; --color: #{$color-offbg}; }
+    &:nth-of-type(3n) { --background: #{$a2}; --color: #{$color-a2}; }
+  
+    border: 1px solid var(--background);
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 0 4px $shadow;
+    display: grid;
+    flex: 1 1 max(200px, 100%/3.1);
+  
+    > a {
+      background: var(--background);
+      color: var(--color);
+      display: block;
+      padding: 9.5px 12px;
+      font: 500 rem(1.2)/1 'Poppins';
+      border-radius: 3px 3px 0 0;
+    }
+    .options {
+      background: lighten($bg,50%);
+      color: $color;
+      display: flex;
+      padding: 13px 18px;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-top: 1px solid var(--background);
+      > * {
+        text-transform: unset;
+        background: var(--background);
+        color: var(--color);
+        border-radius: 4px;
+        padding: 9px 13px;
+        display: grid;
+        align-items: center;
+        font: 500 rem(1)/1 'Nunito';
+        flex: 4 1;
+        transition: .13s ease;
+        &:hover {
+          background: darken(var(--background), 10%)
+        }
+      }
+    }
+  }
+  
+  .details {
+    display: grid;
+    gap: 2px;
+    margin-bottom: 6px;
+    width: 100%;
+    input { 
+      font-size: rem(1.07); 
+      padding: 6px 13px; 
+    }
+    input[type="number"] {padding: 6px;}
+  }
+  .lists {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    width: 100%;
+  }
+  .completed {
+    display: grid;
+    grid-auto-flow: row;
+    cursor: pointer;
+    align-items: center;
+    input[type="checkbox"] {
+      width: unset; cursor: pointer;
+      margin: 0 6px;
+      font-size: rem(2);
+    }
+  }
+  .options .completed {
+    flex-grow: unset;
+    grid-template-columns: auto;
+    background: var(--background);
+  }
+  .options .delete {
+    background-color: $bg;
+    color: $color;
+    flex: 1 1;
+    &:hover {background-color: darken($bg, 5%)}
+  }
+  
+  .play {
+    text-align: center;
+    flex: 1 1 !important;
+  }
+  
+  #view {
+    border-radius: 8px 0px 8px 0;
+    padding: 18px;
+    background: $bg;
+    color: $color;
+    margin-left: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #view > .entry {
+    flex: 1 1 100%;
+  }
+  #courses #view > .entry {
+    flex: 1 1 max(200px, 100%/3.1);;
+  }
