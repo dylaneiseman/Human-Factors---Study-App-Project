@@ -67,7 +67,7 @@ function ViewCourses(){
     
     if (data.length === 0) return <div><a href="/courses/new">Create your first course!</a></div>
 
-    function Delete({id, name}) { return (<button className="delete" onClick={()=>handleDelete(id, name)}>delete?</button>) }
+    function Delete({id, name}) { return (<button className="delete" onClick={()=>handleDelete(id, name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     return(
         <div id="view">
             {modal}
@@ -192,7 +192,7 @@ export function OneCourse() {
         }
     }
 
-    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type,id,name)}>delete?</button>) }
+    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type,id,name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     return(
         <div id="view">
             {modal}
@@ -217,7 +217,7 @@ export function OneCourse() {
                 {sets.map(e => <div className="entry" id={"set-" + e._id}>
                     <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
                     <div className="options">
-                        <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
+                        <a href={"/flashcards/sets/" + data._id + "/play"} className="play"><i class="fa-solid fa-play"></i> Play</a>
                         <Delete id={e._id} type="flashcards/sets" name={e.setName}/>
                     </div>
                 </div>)}

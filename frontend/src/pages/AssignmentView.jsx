@@ -128,7 +128,7 @@ function ViewAssignments(){
         }
     }
 
-    function Delete({id,name}) { return (<button className="delete" onClick={()=>handleDelete(id,name)}>delete?</button>) }
+    function Delete({id,name}) { return (<button className="delete" onClick={()=>handleDelete(id,name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     const dataView = []
     if (Array.isArray(data)) { 
         for (const course of courses) {

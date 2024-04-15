@@ -92,7 +92,7 @@ function ViewFlashcards(){
     if (error) return <div>Error: {error.message}</div>;
     if (sets.length === 0) return <div><a href="/flashcards/sets/new">Create your first set!</a></div>
 
-    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}>delete?</button>) }
+    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     const dataView = []
     for (const course of courses) {
         const assign = [];
@@ -101,7 +101,7 @@ function ViewFlashcards(){
             assign.push(
                 <div className="options" id={e._id}>
                     <a href={"/flashcards/sets/" + e._id}>{e.setName}</a>
-                    <a href={"/flashcards/sets/" + e._id + "/play"} className="play">Play</a>
+                    <a href={"/flashcards/sets/" + e._id + "/play"} className="play"><i class="fa-solid fa-play"></i> Play</a>
                     <Delete type="sets" id={e._id} name={e.setName}/>
                 </div>
             )
@@ -207,13 +207,13 @@ export function OneSet(){
     
     // if (cards.length === 0) return <div><a href="/flashcards/cards/new">Create your first card!</a></div>
 
-    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}>delete?</button>) }
+    function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
     return(
         <div id="view">
             <div className="details">
                 <input type="text" name="setName" id="setName" defaultValue={data.setName} onChange={(e)=>handleChange(e, "sets", e._id)}/>
-                <a href={"/flashcards/sets/" + data._id + "/play"} className="play">Play</a>
-                <button className="delete" onClick={()=>handleDelete("sets", data._id)}>delete?</button>
+                <a href={"/flashcards/sets/" + data._id + "/play"} className="play"><i class="fa-solid fa-play"></i> Play</a>
+                <button className="delete" onClick={()=>handleDelete("sets", data._id)}><i class="fa-solid fa-trash"></i> Delete</button>
             </div>
             
             { cards.map(e=>
