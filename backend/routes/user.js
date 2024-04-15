@@ -6,14 +6,10 @@ const {requireAuth} = require('../middleware/authMiddleware')
 
 const router = express.Router()
 
-// login route
-router.post('/login', loginUser)
 
-// signup route
-router.post('/signup', signupUser)
-
-router.get('/', requireAuth, getUser)
-
-router.put('/', requireAuth, updateUser)
+router.post('/login', loginUser) // login route
+router.post('/signup', signupUser) // signup route
+router.get('/', requireAuth, getUser) // get user route
+router.put('/', requireAuth, updateUser) // update user rotue
 
 module.exports = router
