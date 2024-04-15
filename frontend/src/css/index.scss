@@ -84,61 +84,6 @@ input[type=submit] {
   }
 }
 
-.modal {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  z-index: 1;
-  top: 0; left: 0;
-  display: grid;
-  place-items: center;
-  background: alpha($form, 70%)
-}
-.modal-inside {
-  width: min(1000px, 70%);
-  margin: 0 auto;
-  background: $form;
-  color: $color-form;
-  border-radius: 3px;
-  box-shadow: 0 0 4px $shadow;
-
-  .details {
-    padding: 30px 30px 25px;
-    display: block;
-    box-sizing: border-box;
-    text-align: center;
-
-    b {
-      margin: 0 0 0 3px;
-      font-weight: 700;
-      letter-spacing: .02em;
-    }
-  }
-  .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    place-items: center;
-    border-top: 1.5px solid $offbg;
-    button {
-      padding: 13px;
-      width: 100%;
-      box-sizing: border-box;
-      text-align: center;
-      font-weight: 600;
-      transition: .14s ease;
-      &:hover {
-        background: darken($form, 4%)
-      }
-    }
-    .btn-no {
-      background: $a1;
-      color: $color-a1;
-      &:hover {background: darken($a1, 6%)}
-    }
-  }
-}
-
-
 
 details { width: 100%; }
 summary {
