@@ -2,6 +2,7 @@ const Scheduler = require('../models/schedulerModel')
 const Course = require('../models/courseModel')
 const {getUserId} = require("../helpers/getUserId")
 
+// get user study schedule
 const getStudySchedule = async (req, res) => {
 
     try {
@@ -21,6 +22,7 @@ const getStudySchedule = async (req, res) => {
     }
 }
 
+// set semester start and end dates
 const setSemesterDates = async (req, res) => {
     const updateData = req.body
 
