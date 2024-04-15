@@ -127,7 +127,7 @@ function Play(){
                     <button id="next" onClick={NextCard}>Next</button>
                 </div>
                 <div className="options" id="card-counter">
-                    <button id="back"><a href={"/flashcards/sets/" + set._id}>Back</a></button>
+                    {/* <button id="back"><a href={"/flashcards/sets/" + set._id}>Back</a></button> */}
                     <button id="current-num">Card {currentCard+1}/{cardList.length}</button>
                     <button id="shuffle" onClick={()=>ShuffleDeck(cardList)}>Shuffle Deck</button>
                 </div>
