@@ -5,6 +5,7 @@
     display: grid;
     grid-template: 'overview strip course' 'db db db' / 45% 15% auto;
     row-gap: min(60/1000*100vw, 30px);
+    box-shadow: unset !important;
 }
   
 #todo {
@@ -48,6 +49,7 @@
         flex-wrap: wrap;
         border-top-right-radius: 8px;
         overflow: hidden;
+        gap: 0;
 
         input {
             flex: 1 1 100px;

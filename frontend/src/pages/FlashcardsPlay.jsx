@@ -50,7 +50,7 @@ function Play(){
     if (cardList.length === 0) return (
         <div id="view">
             <div className="error">Please create flash cards for this set first</div>
-            <NewCard setID={ id }/>
+            <NewCard open={true} setID={ id }/>
         </div>
     )
 
