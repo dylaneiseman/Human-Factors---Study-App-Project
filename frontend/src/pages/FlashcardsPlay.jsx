@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import NewCard from '@forms/NewCard';
+
 import "@css/pages/Play.scss"
 
 function Play(){
@@ -47,7 +49,13 @@ function Play(){
 
     if (error) return <div>Error: {error.message}</div>;
     
-    if (cardList.length === 0) return navigate("/flashcards/sets/" + id)
+    if (cardList.length === 0) return (
+        <div id="view">
+            <div className="error">Please create flash cards for this set first</div>
+        <NewCard setID={set._id}/>
+        </div>
+        
+    )
 
     const UpdateText = (index, f = showQuestion) => {
         const face = f ? "question" : "answer"
