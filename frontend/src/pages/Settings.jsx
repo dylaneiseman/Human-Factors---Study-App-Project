@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 
 import "@css/pages/Settings.scss"
@@ -6,7 +6,7 @@ import "@css/pages/Settings.scss"
 function Settings() {
     const context = useOutletContext();
     const [style, setStyle] = context._style;
-    const [error, setError] = null();
+    const [error, setError] = useState(null);
 
     async function handleSubmit(e) {
         try {
@@ -52,7 +52,7 @@ function Settings() {
         ["--background-color", "Primary background color"],
         ["--text-color", "Primary text color"],
         ["--off-background-color", "Secondary background color"],
-        ["--off-background-color-text", "Secondary text color"],
+        ["--off-background-text-color", "Secondary text color"],
         ["--form-background-color", "Form background color"],
         ["--form-text-color", "Form text color"]
     ];

@@ -13,6 +13,8 @@
         height: 50px;
     }
     input[type=submit]{
+        background: $offbg;
+        color: $color-offbg;
         grid-column: 1/-1;
     }
 }

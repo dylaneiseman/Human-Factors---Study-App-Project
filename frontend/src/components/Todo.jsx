@@ -9,7 +9,10 @@ function Todo(){
                 <div className="db-link">dashboard</div>
             </div>
             <div className="list">
+
+                <TodoCourse/>
                 <TodoAssignments/>
+                
             </div>
         </div>
     )

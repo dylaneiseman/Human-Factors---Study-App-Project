@@ -65,6 +65,7 @@ function ViewFlashcards(){
                 setSets(json);
             } catch (err) {
                 setError(err);
+                setSets(err);
             }
         }
         async function getCourses() {
@@ -82,6 +83,7 @@ function ViewFlashcards(){
                 setCourses(json);
             } catch (err) {
                 setError(err);
+                setCourses(err);
             }
         }
         getSets();
@@ -89,7 +91,7 @@ function ViewFlashcards(){
     }, []);
 
     if (sets===null || courses===null) return <Loading/>;
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
     if (sets.length === 0) return navigate("/flashcards/sets/new")
 
     function Delete({type, id, name}) { return (<button className="delete" onClick={()=>handleDelete(type, id, name)}><i class="fa-solid fa-trash"></i> Delete</button>) }
@@ -175,6 +177,8 @@ export function OneSet(){
                 setCards(cards);
             } catch (err) {
                 setError(err);
+                setData(err);
+                setCards(err);
             }
         }
         getData();
@@ -196,7 +200,7 @@ export function OneSet(){
                 throw new Error(response.statusText);
             }
         } catch (err) {
-            console.log(err);
+            setError(error)
         }
     }
 

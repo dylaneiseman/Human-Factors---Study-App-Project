@@ -45,7 +45,7 @@ function Play(){
 
     if (cardList===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
     
     if (cardList.length === 0) return (
         <div id="view">

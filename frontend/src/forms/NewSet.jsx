@@ -62,7 +62,7 @@ function NewSet(args){
 
     if (courses===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
 
     if (courses.length === 0) return <div id="view"><div className="error"><a href="/courses/new">Create a course first!</a></div></div>
 

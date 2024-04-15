@@ -31,7 +31,7 @@ function TodoAssignments(){
 
     if (loading) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div className="error">Error: {error.message}</div>
 
     async function handleCompleted(data) {
         try {
@@ -55,6 +55,7 @@ function TodoAssignments(){
     for(const e of data) {
         const today = new Date().toISOString()
         if (e.dueDate < today) continue;
+        if (e.completed) continue;
         dataView.push(
             <div className="item" id={e._id}>
                 <a className="item_title" href={"/assignments/" + e._id}>{e.assignmentTitle}</a>
@@ -64,7 +65,7 @@ function TodoAssignments(){
         )
     }
 
-    if (dataView.length === 0) return <div className="empty_item"><a href="/assignments/new">Create your first assignment!</a></div>
+    if (dataView.length === 0) return <div className="empty_item"><div className="error"><a href="/assignments/new">Add an assignment!</a></div></div>
 
 
     return(
