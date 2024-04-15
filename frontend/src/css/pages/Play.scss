@@ -7,15 +7,39 @@
     .details {
         grid-template-columns: 100%;
         margin-bottom: 0;
-        padding: 33px;
+        padding: 45px;
         background-color: $form;
         color: $color-form;
         border-radius: 8px 8px 0 0;
         box-shadow: 0 0 4px $shadow;
         position: relative;
         box-sizing: border-box;
+        text-align: center;
+        font-weight: 500;
     }
     .entry {
         box-sizing: border-box;
+    }
+    .end {
+        order: 4;
+        margin-bottom: 0;
+        width: 100%;
+        padding: 15px 33px;
+        background-color: $form;
+        color: $color-form;
+        border-radius: 0 0 8px 8px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    #current-num:hover {
+        background-color: $bg;
+        color: $color;
+        cursor: unset;
+    }
+
+    #control-buttons.options button {
+        --background: #{$a1}; --color: #{$color-a1};
     }
 }

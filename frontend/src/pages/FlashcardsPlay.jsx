@@ -9,7 +9,7 @@ function Play(){
     const [currentCard, setCurrentCard] = useState(0);
     const [displayedText, setDisplayedText] = useState("");
     const [showQuestion, setShowQuestion] = useState(true);
-    const [errorMessage, setErrorMessage] = useState("");
+    // const [errorMessage, setErrorMessage] = useState("");
     // const [cardConfirm, setCardConfirm] = useState(null);
     // const [groupConfirm, setGroupConfirm] = useState(null);
     const [error, setError] = useState(null);
@@ -61,25 +61,25 @@ function Play(){
     }
 
     const PrevCard = () =>{
-        setShowQuestion(true);
         if(currentCard-1<0){
-            UpdateText(cardList.length-1);
+            UpdateText(cardList.length-1, true);
             setCurrentCard(cardList.length-1);
         }else{
-            UpdateText(currentCard-1);
+            UpdateText(currentCard-1, true);
             setCurrentCard(currentCard=>currentCard-1);
         }
+        setShowQuestion(true);
     }
 
     const NextCard = () =>{
-        setShowQuestion(true);
         if(currentCard+1>=cardList.length){
-            UpdateText(0);
+            UpdateText(0, true);
             setCurrentCard(0);
         }else{
-            UpdateText(currentCard+1);
+            UpdateText(currentCard+1, true);
             setCurrentCard(currentCard=>currentCard+1);
         }
+        setShowQuestion(true);
     }
 
     function shuffle(array) {
@@ -123,6 +123,7 @@ function Play(){
                     <button id="shuffle" onClick={()=>ShuffleDeck(cardList)}>Shuffle Deck</button>
                 </div>
             </div>
+            <a href={"/flashcards/sets/" +  set._id} className="end">{set.setName}</a>
         </div>
     )
 }
