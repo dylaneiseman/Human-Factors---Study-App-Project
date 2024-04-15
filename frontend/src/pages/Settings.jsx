@@ -60,7 +60,7 @@ function Settings() {
 
     return(
         <div id="settings">
-            <form id="new-course" method="post" onSubmit={handleSubmit}>
+            <form id="new-settings" method="post" onSubmit={handleSubmit}>
                 {colorVars.map(variable => (
                     <div className="prefs" id={variable[0].slice(2)}>
                         <label for={variable[0]}>{variable[1]}</label>
