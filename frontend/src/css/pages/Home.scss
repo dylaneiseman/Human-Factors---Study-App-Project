@@ -38,8 +38,30 @@
     .empty_item {
         padding: 20px;
         background: $offbg;
-        border-top-right-radius: 8px;
     }
+}
+
+#course-todo {
+    border-bottom: 1.5px solid $a1;
+    form#scheduler {
+        display: flex;
+        flex-wrap: wrap;
+        border-top-right-radius: 8px;
+        overflow: hidden;
+
+        input {
+            flex: 1 1 100px;
+            padding: 10px 13px;
+        }
+        input[type=submit] {
+            text-transform: uppercase;
+            font: 700 calc(var(--text-size, 16)* 0.71* 1px) / 1 "Nunito Sans";
+            letter-spacing: -0.04em;
+            transition: 0.1s ease;
+            
+        }
+    }
+    .entry { border: unset; }
 }
 
 #assignment-todo {
@@ -60,9 +82,6 @@
     .item:nth-of-type(odd) {
         background: $offbg;
         color: $color-offbg;
-    }
-    .item:nth-of-type(1) {
-        border-top-right-radius: 8px;
     }
 }
 

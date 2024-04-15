@@ -43,7 +43,7 @@ function Application() {
 
     if (loading) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    // if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
     
     function Child() {
         return(<>

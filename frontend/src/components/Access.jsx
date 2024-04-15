@@ -41,7 +41,7 @@ function Access(){
 
     if (loading) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div className="error">Error: {error.message}</div>
 
     if (data) return <Navigate to="/home" replace={true}/>
 

@@ -61,7 +61,7 @@ function NewCard(args){
 
     if (sets===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
 
     if (sets.length === 0) return <div><a href="/flashcards/set/new">Create a set first!</a></div>
 
