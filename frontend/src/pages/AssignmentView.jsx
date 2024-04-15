@@ -137,9 +137,10 @@ function ViewAssignments(){
                 if (course.props.value != e.courseID) continue;
                 assign.push(
                     <div className="options" id={e._id}>
+                        <label className="completed" htmlFor={"c-" + e._id}><input type="checkbox" id={"c-" + e._id} name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/></label>
+
                         <a href={"/assignments/" + e._id}>{e.assignmentTitle}</a>
-                        <label className="completed" htmlFor={"c-" + e._id}>completed
-                        <input type="checkbox" id={"c-" + e._id} name="completed" defaultChecked={e.completed} onChange={()=>handleCompleted(e)}/></label>
+                        
                         <Delete id={e._id} name={e.assignmentTitle}/>
                     </div>
                 )
@@ -160,13 +161,13 @@ function ViewAssignments(){
 
             <input type="text" name="assignmentTitle" id="assignmentTitle" defaultValue={data.assignmentTitle} onChange={(e)=>handleChange(e, data)}/>
 
-            <input type="date" id="dueDate" name="dueDate" defaultValue={data.dueDate.split("T")[0]} onChange={(e)=>handleChange(e, data)}/>
-
             <Delete id={data._id} name={data.assignmentTitle}/>
 
             <select name="courseID" id="courseID" defaultValue={data.courseID} onChange={(e)=>handleChange(e, data)}>
                 {courses}
             </select>
+
+            <input type="date" id="dueDate" name="dueDate" defaultValue={data.dueDate.split("T")[0]} onChange={(e)=>handleChange(e, data)}/>
 
             <textarea id="description" name="description" defaultValue={data.description} onChange={(e)=>handleChange(e, data)}></textarea>
 

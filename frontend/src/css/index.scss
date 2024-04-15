@@ -196,13 +196,14 @@ input[type=submit] {
   }
 }
 .options .completed {
-  flex: 1 1;
-  grid-template-columns: auto auto;
+  flex-grow: unset;
+  grid-template-columns: auto;
+  background: var(--background);
 }
 .options .delete {
   background-color: $bg;
   color: $color;
-  flex: 1 100%;
+  flex: 1 1;
   &:hover {background-color: darken($bg, 5%)}
 }
 
@@ -310,3 +311,14 @@ details[open] summary {
   background: lighten(var(--bg), 10%);
   color: var(--c);
 }
+
+
+.error {
+  width: 100%;
+  padding: 11px 15px;
+  box-shadow: 0 0 2px $shadow;
+  border-radius: 1px;
+  background: alpha(red, 8%);
+  font-weight: 600;  
+}
+.error:empty { display: none;}

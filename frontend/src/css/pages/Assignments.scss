@@ -8,17 +8,16 @@
 
     .details { 
         grid-column: 1/span 2;
-        grid-template-columns: 40px 1fr 40px 20%;
+        grid-template-columns: 40px 1fr 20%;
         align-content: center;
 
-        #courseID {grid-column: 1/span 4;}
+        #courseID {grid-column: 1/span 2;}
         #description {grid-column: 1/span 4;}
     }
     .lists {
         margin-top: 10px;
     }
     .completed { 
-        background: $form;
-        color: $color-form;
+        background: var(--bg);
     }
 }

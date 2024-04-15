@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
-function Signup(){
+function Signup(args){
     const navigate = useNavigate()
+    const {setErr} = args
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -16,6 +18,11 @@ function Signup(){
                     "Content-Type": "application/json"
                 }
             });
+            const json = await response.json();
+            if(!response.ok) {
+                setErr("Signup: " + json)
+                return false;
+            }
             localStorage.setItem("authToken", await response.text());
             if(window.location.pathname.slice(1)=='/') navigate("/home");
             window.location.reload();

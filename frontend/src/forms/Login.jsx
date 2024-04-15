@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
-function Login(){
+function Login(args){
     const navigate = useNavigate()
+    const {setErr} = args;
 
     async function handleSubmit(e) {        
         e.preventDefault();
@@ -16,7 +18,12 @@ function Login(){
                     "Content-Type": "application/json"
                 }
             });
-            localStorage.setItem("authToken", await response.text());
+            const json = await response.json();
+            if(!response.ok) {
+                setErr("Login: " + json)
+                return false;
+            }
+            localStorage.setItem("authToken", JSON.stringify(json));
             if(window.location.pathname.slice(1)=='/') navigate("/home");
             window.location.reload();
         } catch (err) {

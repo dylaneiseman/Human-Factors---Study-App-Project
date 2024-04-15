@@ -13,6 +13,7 @@ function Access(){
     const [data, setData] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [err, setErr] = useState(null);
     
     useEffect(() => {
         async function Authenticate() {
@@ -46,9 +47,10 @@ function Access(){
 
     return(
         <div id="access">
-            <Modal>
-                <Login/>
-                <Signup/>
+            <Modal className="access-modal">
+                <div className="error">{err}</div>
+                <Login setErr={setErr}/>
+                <Signup setErr={setErr}/>
             </Modal>
         </div>
     )
