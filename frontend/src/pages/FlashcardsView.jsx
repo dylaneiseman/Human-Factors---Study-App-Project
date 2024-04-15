@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import NewCard from '@forms/NewCard';
 import NewSet from '@forms/NewSet';
 import Modal from '@components/Modal';
+import Loading from '@pages/Loading';
 
 function ViewFlashcards(){
     const [sets, setSets] = useState(null);
@@ -88,7 +89,7 @@ function ViewFlashcards(){
         getCourses();
     }, []);
 
-    if (sets===null || courses===null) return <div>Loading...</div>;
+    if (sets===null || courses===null) return <Loading/>;
     if (error) return <div>Error: {error.message}</div>;
     if (sets.length === 0) return <div><a href="/flashcards/sets/new">Create your first set!</a></div>
 
@@ -201,7 +202,7 @@ export function OneSet(){
         }
     }
 
-    if (data===null || cards===null) return <div>Loading...</div>;
+    if (data===null || cards===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     

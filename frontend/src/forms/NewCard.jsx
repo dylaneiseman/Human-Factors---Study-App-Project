@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import Loading from '@pages/Loading';
 
 function NewCard(args){
     const [sets, setSets] = useState(null);
@@ -58,7 +59,7 @@ function NewCard(args){
         }
     }, []);
 
-    if (sets===null) return <div>Loading...</div>;
+    if (sets===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 

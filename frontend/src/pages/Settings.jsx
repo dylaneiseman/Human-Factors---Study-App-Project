@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 import "@css/pages/Settings.scss"
 
 function Settings() {
-    const [style, setStyle] = useOutletContext();
+    const context = useOutletContext();
+    const [style, setStyle] = context._style;
 
     async function handleSubmit(e) {
         try {
@@ -63,12 +64,13 @@ function Settings() {
             <form id="new-settings" method="post" onSubmit={handleSubmit}>
                 {colorVars.map(variable => (
                     <div className="prefs" id={variable[0].slice(2)}>
-                        <label for={variable[0]}>{variable[1]}</label>
+                        <label htmlFor={variable[0]}>{variable[1]}</label>
                         <input type="color" name={variable[0]} defaultValue={cssval(variable[0])} onChange={handleChange}/>
                     </div>
                 ))}
-                <label for="--text-size">Text size</label>
-                <input type="number" step="1" min="10" name="--text-size" defaultValue={cssval("--text-size")} onChange={handleChange}/>
+                    <label htmlFor="--text-size">Text size</label>
+                    <input type="number" step="1" min="10" name="--text-size" defaultValue={cssval("--text-size")} onChange={handleChange}/>
+                
                 <input type="submit" value="Save"/>
             </form>
         </div>

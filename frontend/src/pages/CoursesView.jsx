@@ -5,11 +5,11 @@ import NewSet from '@forms/NewSet';
 import NewAssignment from '@forms/NewAssignment';
 import NewCourse from '@forms/NewCourse';
 import Modal from '@components/Modal';
+import Loading from '@pages/Loading';
 
 function ViewCourses(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
 
     const [modal, setModal] = useState(null);
     function handleDelete(id, name) {
@@ -61,7 +61,7 @@ function ViewCourses(){
         getData();
     }, []);
 
-    if (data === null) return <div>Loading...</div>;
+    if (data === null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     
@@ -166,7 +166,7 @@ export function OneCourse() {
         getData();
     }, []);
 
-    if (data===null || assignments===null) return <div>Loading...</div>;
+    if (data===null || assignments===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import Loading from '@pages/Loading';
 
 function NewAssignment(args) {
     const defaultDate = new Date().toISOString().split("T")[0];
@@ -60,7 +61,7 @@ function NewAssignment(args) {
         }
     }, []);
 
-    if (courses===null) return <div>Loading...</div>;
+    if (courses===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 

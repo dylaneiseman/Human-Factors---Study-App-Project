@@ -2,13 +2,13 @@ import NewAssignment from '@forms/NewAssignment';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Modal from '@components/Modal';
+import Loading from '@pages/Loading';
 
 function ViewAssignments(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [courses, setCourses] = useState(null);
 
-    const navigate = useNavigate();
     const [modal, setModal] = useState(null);
     function handleDelete(id, name) {
         setModal(<Modal className="delete-msg">
@@ -84,7 +84,7 @@ function ViewAssignments(){
         getData();
     }, []);
 
-    if (data===null || courses===null) return <div>Loading...</div>;
+    if (data===null || courses===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     

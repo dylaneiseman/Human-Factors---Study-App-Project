@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import NewCard from '@forms/NewCard';
+import Loading from '@pages/Loading';
 
 import "@css/pages/Play.scss"
 
@@ -45,7 +46,7 @@ function Play(){
         GetCards();
     }, []);
 
-    if (cardList===null) return <div>Loading...</div>;
+    if (cardList===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     

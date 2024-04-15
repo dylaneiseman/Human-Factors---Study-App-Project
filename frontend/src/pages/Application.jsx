@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Access from '@components/Access'
 import Logout from '@components/Logout';
+import Loading from '@pages/Loading';
 
 import "@css/pages/Application.scss"
+
 
 function Application() {
     const [data, setData] = useState(null);
@@ -41,7 +43,7 @@ function Application() {
         Authenticate();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     
@@ -58,7 +60,9 @@ function Application() {
                 <Logout/>
             </div>
             <div id="wrapper">
-                <Outlet context={[style, setStyle]}/>
+                <Outlet context={{
+                    _style: [style, setStyle]
+                }}/>
             </div>
         </>)
     }

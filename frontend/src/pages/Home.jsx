@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Todo from "@components/Todo"
+import Loading from '@pages/Loading';
 
 import "@css/pages/Home.scss"
 
@@ -30,7 +31,7 @@ function Home(){
         getData();
     }, []);
 
-    if (data === null) return <div>Loading...</div>;
+    if (data === null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 
