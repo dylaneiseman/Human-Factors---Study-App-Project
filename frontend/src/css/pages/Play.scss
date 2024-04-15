@@ -1,0 +1,21 @@
+/* scss variables */
+@use '@css/SharedVariables.scss' as *;
+
+#view.flashcard-play {
+    gap: 0;
+    
+    .details {
+        grid-template-columns: 100%;
+        margin-bottom: 0;
+        padding: 33px;
+        background-color: $form;
+        color: $color-form;
+        border-radius: 8px 8px 0 0;
+        box-shadow: 0 0 4px $shadow;
+        position: relative;
+        box-sizing: border-box;
+    }
+    .entry {
+        box-sizing: border-box;
+    }
+}

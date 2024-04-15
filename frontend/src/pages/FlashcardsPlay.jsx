@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import "@css/pages/Play.scss"
+
 function Play(){
+    const [set, setSet] = useState(null);
     const [cardList, setCardList] = useState(null);
     const [currentCard, setCurrentCard] = useState(0);
     const [displayedText, setDisplayedText] = useState("");
-    const [showQuestion, setShowQuestion] = useState(1);
+    const [showQuestion, setShowQuestion] = useState(true);
     const [errorMessage, setErrorMessage] = useState("");
     // const [cardConfirm, setCardConfirm] = useState(null);
     // const [groupConfirm, setGroupConfirm] = useState(null);
@@ -26,8 +29,9 @@ function Play(){
                 if (!response.ok) {
                     throw new Error(response.statusText);
                 }
-                const { cards } = await response.json();
+                const { cards, set } = await response.json();
                 setCardList(cards);
+                setSet(set);
                 if(cards.length>0){
                     setDisplayedText(cards[currentCard].question);
                 }
@@ -45,122 +49,79 @@ function Play(){
     
     if (cardList.length === 0) return navigate("/flashcards/sets/" + id)
 
-    function UpdateText(index){
-        if(showQuestion===1){
-            setDisplayedText(cardList[index].question);
-        }else{
-            setDisplayedText(cardList[index].answer);
-        }
+    const UpdateText = (index, f = showQuestion) => {
+        const face = f ? "question" : "answer"
+        setDisplayedText(cardList[index][face]);
     }
 
+    
     const FlipCard = () =>{
-        if(showQuestion===1){
-            setShowQuestion(0);
-        }else{
-            setShowQuestion(1);
-        }
-        UpdateText(currentCard);
+        UpdateText(currentCard, !showQuestion);
+        setShowQuestion(showQuestion => !showQuestion);
     }
 
     const PrevCard = () =>{
+        setShowQuestion(true);
         if(currentCard-1<0){
-            setErrorMessage("There are no previous cards.");
+            UpdateText(cardList.length-1);
+            setCurrentCard(cardList.length-1);
         }else{
-            setErrorMessage("");
-            setShowQuestion(1);
             UpdateText(currentCard-1);
             setCurrentCard(currentCard=>currentCard-1);
         }
     }
 
     const NextCard = () =>{
+        setShowQuestion(true);
         if(currentCard+1>=cardList.length){
-            setErrorMessage("There are no cards next.");
+            UpdateText(0);
+            setCurrentCard(0);
         }else{
-            setErrorMessage("");
-            setShowQuestion(1);
             UpdateText(currentCard+1);
             setCurrentCard(currentCard=>currentCard+1);
         }
     }
 
-    // const HideCardConfirm = () =>{
-    //     setCardConfirm(null);
-    // }
+    function shuffle(array) {
+        let currentIndex = array.length;
+      
+        // While there remain elements to shuffle...
+        while (currentIndex != 0) {
+      
+          // Pick a remaining element...
+          let randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+      
+          // And swap it with the current element.
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
+        }
 
-    // async function DeleteFlashcard(){
-    //     try{
-    //         await fetch(process.env.REACT_APP_API_URL+"flashcards/"+cardList[currentCard].id, {
-    //             method: "delete",
-    //             headers: {
-    //                 "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
-    //             }
-    //         });
-    //     }catch(error){
-    //         console.log(error);
-    //         setError(error);
-    //     }
-    //     window.location.reload();
-    // }
+        return array;
+      }
 
-    // const CreateCardConfirm = () =>{
-    //     const confirmMenu =
-    //         <div>
-    //             <label>Are you sure you want to delete this card?</label>
-    //             <div>
-    //                 <button id = "yes" onClick = {DeleteFlashcard}>Yes</button>
-    //                 <button id = "no" onClick = {HideCardConfirm}>No</button>
-    //             </div>
-    //         </div>
-    //     setCardConfirm(confirmMenu);
-    // }
-
-    // const HideGroupConfirm = () =>{
-    //     setGroupConfirm(null);
-    // }
-
-    // async function DeleteGroup(){
-    //     try{
-    //         await fetch(process.env.REACT_APP_API_URL+"flashcards/group/"+id, {
-    //             method: "delete",
-    //             headers: {
-    //                 "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
-    //             }
-    //         });
-    //     }catch(error){
-    //         console.log(error);
-    //         setError(error);
-    //     }
-    //     navigate("/flashcards");
-    // }
-
-    // const CreateGroupConfirm = () =>{
-    //     const confirmMenu =
-    //         <div>
-    //             <label>Are you sure you want to delete this flashcard set?</label>
-    //             <div>
-    //                 <button id = "yes" onClick = {DeleteGroup}>Yes</button>
-    //                 <button id = "no" onClick = {HideGroupConfirm}>No</button>
-    //             </div>
-    //         </div>
-    //     setGroupConfirm(confirmMenu);
-    // }
+    const ShuffleDeck = (deck) => {
+        setCardList(shuffle(deck));
+        setDisplayedText(cardList[0].question);
+        setCurrentCard(0)
+    }
 
     return(
-        <div id="card-set-view">
-            <div id="flashcard-display-text">
+        <div className="flashcard-play" id="view">
+            <div className="details" id="flashcard-display-text">
                 {displayedText}
             </div>
-            <div id="control-buttons">
-                <button id="previous" onClick = {PrevCard}>Previous</button>
-                <button id="flip" onClick = {FlipCard}>Flip Card</button>
-                <button id="next" onClick = {NextCard}>Next</button>
-            </div>
-            <div id="card-counter">
-                Card {currentCard+1} of {cardList.length}
-            </div>
-            <div className="error">
-                {errorMessage}
+            <div className="entry">
+                <div className="options" id="control-buttons">
+                    <button id="previous" onClick={PrevCard}>Previous</button>
+                    <button id="flip" onClick={FlipCard}>Flip Card</button>
+                    <button id="next" onClick={NextCard}>Next</button>
+                </div>
+                <div className="options" id="card-counter">
+                    <button id="back"><a href={"/flashcards/sets/" + set._id}>Back</a></button>
+                    <button id="current-num">Card {currentCard+1}/{cardList.length}</button>
+                    <button id="shuffle" onClick={()=>ShuffleDeck(cardList)}>Shuffle Deck</button>
+                </div>
             </div>
         </div>
     )
