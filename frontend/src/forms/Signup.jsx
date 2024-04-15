@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
 
-function Signup(){
+function Signup(args){
     const navigate = useNavigate()
+    const {setErr} = args
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -9,15 +11,20 @@ function Signup(){
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
         try {
-            const response = await fetch('http://localhost:4000/api/user/signup', { 
+            const response = await fetch(process.env.REACT_APP_API_URL + 'user/signup', { 
                 method: form.method,
                 body: JSON.stringify(formJson), 
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-            localStorage.setItem("authToken", await response.text());
-            if(window.location.pathname=='/') navigate("/home");
+            const json = await response.json();
+            if(!response.ok) {
+                setErr("Signup: " + json)
+                return false;
+            }
+            localStorage.setItem("authToken", JSON.stringify(json));
+            if(window.location.pathname.slice(1)=='/') navigate("/home");
             window.location.reload();
         } catch (err) {
             console.log(err);
@@ -25,8 +32,8 @@ function Signup(){
     }
     return(
         <form id="signup" method="post" onSubmit={handleSubmit}>
-            <input type="email" id="email" name="email" placeholder="email@provider.com"/>
-            <input type="password" id="password" name="password" placeholder="password"/>
+            <input required type="email" id="email" name="email" placeholder="email@provider.com"/>
+            <input required type="password" id="password" name="password" placeholder="password"/>
             <input type="submit" value="Sign Up"/>
         </form>
     )

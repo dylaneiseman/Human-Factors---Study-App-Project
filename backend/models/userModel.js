@@ -71,7 +71,11 @@ userSchema.statics.login = async function (email, password) {
     // validate if email entered is correct
     const user = await this.findOne({ email })
     if (!user) {
+<<<<<<< HEAD
         throw Error('The email or password entered is incorrect.')
+=======
+        throw Error('The email entered is not valid.') // UPDATE TO BE LESS SPECIFIC LATER ON
+>>>>>>> origin/main
     }
 
     // validate if password entered is correct

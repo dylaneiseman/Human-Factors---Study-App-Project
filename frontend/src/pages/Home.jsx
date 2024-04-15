@@ -1,8 +1,40 @@
+import React, { useState, useEffect } from 'react';
+
 import Todo from "@components/Todo"
+import Loading from '@pages/Loading';
 
 import "@css/pages/Home.scss"
 
 function Home(){
+    const [data, setData] = useState(null);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function getData() {
+            try {
+                const response = await fetch(process.env.REACT_APP_API_URL + "courses", {
+                    method: "get",
+                    headers: {
+                        "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error(await response.json());
+                }
+                const json = await response.json();
+                setData(json.length)
+            } catch (err) {
+                setError(err);
+            }
+        }
+        getData();
+    }, []);
+
+    if (data === null) return <Loading/>;
+
+    if (error) return <div>Error: {error.message}</div>;
+
+    const create = data > 0 ? "assignment" : "course";
     return(
         <div id="home">
             <a href="/courses" id="overview">
@@ -12,8 +44,8 @@ function Home(){
                 </span>
             </a>
             <div className="createstrip"></div>
-            <a href="/assignments/new" id="create">
-                Create a new assignment
+            <a href={"/"+create+"s/new"} id="create">
+                Create a new {create}
             </a>
             <Todo/>
         </div>

@@ -16,6 +16,9 @@
   --off-background-color: #F1F1F1;
   --off-background-text-color: #404040;
 
+  --form-background-color: #fbfbfb;
+  --form-text-color: #404040;
+
   --text-size: 16;
 }
 
@@ -51,3 +54,123 @@ a, button { all: unset; cursor: pointer; }
   color: $color;
   font-size: $rem;
 }
+
+form {
+  box-shadow: 0 0 4px $shadow;
+  display: grid;
+  grid-template-columns: 100%;
+  gap: 1.5px;
+}
+input, textarea, option, select {
+  width: 100%;
+  padding: 0; margin: 0; border: 0;
+  box-sizing: border-box;
+  padding: 5px;
+  font: 400 rem(.95)/1 'Nunito';
+  background: $form;
+  color: $color-form;
+}
+input[type=date] {
+  cursor: pointer;
+  place-items: center;
+}
+input[type=submit] {
+  cursor: pointer;
+  padding: 11px;
+  transition: .1s ease;
+  &:hover {
+    background: darken($form, 5%);
+    color: $color-form;
+  }
+}
+
+.modal {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  top: 0; left: 0;
+  display: grid;
+  place-items: center;
+  background: alpha($form, 70%)
+}
+.modal-inside {
+  width: min(1000px, 70%);
+  margin: 0 auto;
+  background: $form;
+  color: $color-form;
+  border-radius: 3px;
+  box-shadow: 0 0 4px $shadow;
+
+  .details {
+    padding: 30px 30px 25px;
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+
+    b {
+      margin: 0 0 0 3px;
+      font-weight: 700;
+      letter-spacing: .02em;
+    }
+  }
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+    border-top: 1.5px solid $offbg;
+    button {
+      padding: 13px;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      font-weight: 600;
+      transition: .14s ease;
+      &:hover {
+        background: darken($form, 4%)
+      }
+    }
+    .btn-no {
+      background: $a1;
+      color: $color-a1;
+      &:hover {background: darken($a1, 6%)}
+    }
+  }
+}
+
+
+
+details { width: 100%; }
+summary {
+  background: darken($offbg, 4%);
+  color: $color-offbg;
+  padding: 11px;
+  border-radius: 3px;
+  box-shadow: 0 0 2px $shadow;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font: 700 rem(.95)/1 "Nunito";
+  letter-spacing: -.04em;
+  transition: .35s ease;
+  &:hover { 
+    background: mix( darken($offbg, 4%), var(--bg), 80% );
+    color: mix( $color-offbg, var(--c), 80% );
+  }
+  &::marker { display: none; content:''; }
+}
+details[open] summary {
+  background: lighten(var(--bg), 10%);
+  color: var(--c);
+}
+
+
+.error {
+  width: 100%;
+  padding: 11px 15px;
+  box-shadow: 0 0 2px $shadow;
+  border-radius: 1px;
+  background: alpha(red, 8%);
+  font-weight: 600;  
+  box-sizing: border-box;
+}
+.error:empty { display: none;}

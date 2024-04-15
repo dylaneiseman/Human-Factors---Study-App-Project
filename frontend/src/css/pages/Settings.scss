@@ -1,0 +1,20 @@
+/* scss variables */
+@use '@css/SharedVariables.scss' as *;
+
+#new-settings {
+    background: $form;
+    color: $color-form;
+    padding: 33px 40px;
+    border-radius: 3px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    input {
+        cursor: pointer;
+        height: 50px;
+    }
+    input[type=submit]{
+        background: $offbg;
+        color: $color-offbg;
+        grid-column: 1/-1;
+    }
+}

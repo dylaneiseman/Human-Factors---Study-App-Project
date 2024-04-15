@@ -12,10 +12,10 @@ const requireAuth = async (req, res, next) => {
             req.user = await User.findById(_id);
             next()
         } catch (error) {
-            res.status(401).json({ error: 'Request is not authorized' })
+            res.status(401).json( 'Request is not authorized' )
         }
     } else {
-        res.status(401).json({ error: 'Authorization token required' })
+        res.status(401).json( 'Authorization token required' )
     }
 }
 

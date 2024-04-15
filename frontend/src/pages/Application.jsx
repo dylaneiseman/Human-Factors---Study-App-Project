@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Access from '@components/Access'
 import Logout from '@components/Logout';
+import Loading from '@pages/Loading';
 
 import "@css/pages/Application.scss"
+
 
 function Application() {
     const [data, setData] = useState(null);
@@ -14,17 +16,16 @@ function Application() {
     useEffect(() => {
         async function Authenticate() {
             try {
-                const response = await fetch("http://localhost:4000/api/user", {
+                const response = await fetch(process.env.REACT_APP_API_URL + "user", {
                     method: "get",
                     headers: {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
-                }
                 const json = await response.json();
+                if (!response.ok) {
+                    throw new Error(json)
+                }
                 if(json.theme) {
                     for(const [key, value] of Object.entries(json.theme)) {
                         document.documentElement.style.setProperty(key, value);
@@ -33,17 +34,16 @@ function Application() {
                 setData(json);
                 setLoading(false);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
                 setLoading(false);
             }
         }
         Authenticate();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    // if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
     
     function Child() {
         return(<>
@@ -52,12 +52,15 @@ function Application() {
                     <a href="/home">Dashboard</a>
                     <a href="/courses">Courses</a>
                     <a href="/assignments">Assignments</a>
+                    <a href="/flashcards">Flashcards</a>
                     <a href="/settings">Preferences</a>
                 </div>
                 <Logout/>
             </div>
             <div id="wrapper">
-                <Outlet context={[style, setStyle]}/>
+                <Outlet context={{
+                    _style: [style, setStyle]
+                }}/>
             </div>
         </>)
     }

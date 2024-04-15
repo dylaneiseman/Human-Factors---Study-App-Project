@@ -1,4 +1,17 @@
 /* scss variables */
 @use '@css/SharedVariables.scss' as *;
 
-
+.access-modal .modal-inside {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: $offbg;
+    box-shadow: unset;
+    flex-wrap: wrap;
+    form {
+        flex: 1 1 max(300px, 100%/2.2)
+    }
+    input {
+        padding: 10px 15px
+    }
+}
