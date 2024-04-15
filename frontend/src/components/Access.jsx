@@ -5,7 +5,7 @@ import Modal from "@components/Modal";
 
 import Login from "@forms/Login";
 import Signup from "@forms/Signup";
-import Logout from "@components/Logout";
+import Loading from '@pages/Loading';
 
 import "@css/components/Access.scss";
 
@@ -39,7 +39,7 @@ function Access(){
         Authenticate();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 

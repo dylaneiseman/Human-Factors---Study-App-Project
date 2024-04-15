@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Todo from "@components/Todo"
+import Loading from '@pages/Loading';
 
 import "@css/pages/Home.scss"
 
@@ -18,19 +19,18 @@ function Home(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const json = await response.json();
                 setData(json.length)
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         getData();
     }, []);
 
-    if (data === null) return <div>Loading...</div>;
+    if (data === null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 

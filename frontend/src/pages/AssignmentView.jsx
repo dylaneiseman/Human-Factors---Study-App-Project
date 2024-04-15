@@ -2,14 +2,15 @@ import NewAssignment from '@forms/NewAssignment';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import Modal from '@components/Modal';
+import Loading from '@pages/Loading';
 
 function ViewAssignments(){
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [courses, setCourses] = useState(null);
-
-    const navigate = useNavigate();
     const [modal, setModal] = useState(null);
+    const navigate = useNavigate();
+
     function handleDelete(id, name) {
         setModal(<Modal className="delete-msg">
             <div className="details">Are you sure you want to delete <b>{name}</b>?</div>
@@ -29,7 +30,7 @@ function ViewAssignments(){
                 }
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             window.location.reload();
         } catch (err) {
@@ -47,8 +48,7 @@ function ViewAssignments(){
                     }
                 });
                 if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 const json = await response.json();
                 const courseOptions = [];
@@ -57,8 +57,7 @@ function ViewAssignments(){
                 })
                 setCourses(courseOptions);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
             }
         }
         getCourses();
@@ -73,22 +72,22 @@ function ViewAssignments(){
                     }
                 });
                 if (!response.ok) {
-                    throw new Error(response.statusText);
+                    throw new Error(await response.json());
                 }
                 setData(await response.json());
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
+                setData("");
             }
         }
         getData();
     }, []);
 
-    if (data===null || courses===null) return <div>Loading...</div>;
+    if (data===null || courses===null) return <Loading/>;
 
-    if (error) return <div>Error: {error.message}</div>;
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>;
     
-    if (data.length === 0) return <div className="new"><a href="/assignments/new">Create your first assignment!</a></div>
+    if (data.length === 0) return navigate("/assignments/new")
 
     async function handleCompleted(data) {
         try {
@@ -101,7 +100,7 @@ function ViewAssignments(){
                 body: JSON.stringify({"completed": data.completed ? false : true})
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
         } catch (err) {
             console.log(err);
@@ -121,10 +120,10 @@ function ViewAssignments(){
                 body: JSON.stringify(body)
             });
             if (!response.ok) {
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 

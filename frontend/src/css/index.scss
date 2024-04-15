@@ -138,10 +138,6 @@ input[type=submit] {
   }
 }
 
-.details { order: 1 }
-details { order: 2 }
-.entry, .lists { order: 3 }
-
 
 
 details { width: 100%; }
@@ -175,5 +171,6 @@ details[open] summary {
   border-radius: 1px;
   background: alpha(red, 8%);
   font-weight: 600;  
+  box-sizing: border-box;
 }
 .error:empty { display: none;}

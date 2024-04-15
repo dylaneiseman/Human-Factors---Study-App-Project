@@ -34,7 +34,7 @@ const getStudySchedule = async (req, res) => {
 
         res.status(200).json(schedule);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        res.status(400).json(error.message);
     }
 }
 
@@ -59,7 +59,7 @@ const setSemesterDates = async (req, res) => {
 
         res.status(200).json({ message: 'The semester dates were set successfully.', semester: updatedSemester })
     } catch (error) {
-        res.status(400).json({ error: 'Failed to set the semester dates: ' + error.message })
+        res.status(400).json('Failed to set the semester dates: ' + error.message)
     }
 }
 

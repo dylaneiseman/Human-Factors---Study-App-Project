@@ -5,15 +5,17 @@
     --bg: #{$offbg};
     --c: #{$color-offbg};
 
-    .details { 
-        grid-column: 1/span 2;
-        grid-template-columns: 1fr 18% 15%; 
+    .details {
         width: 100%;
     }
     .lists {
         margin-top: 10px;
     }
 
-    .entry.card { gap: 1.5px; flex: 1 1 max(200px, 100%/2.2);}
-    .entry .delete { padding: 10px; }
+    .entry.card { 
+        gap: 1.5px; flex: 1 1 max(200px, 100%/2.2);
+        --background: $offbg;
+        --color: $color-offbg;
+    }
+    .entry .delete { padding: 10px; width: 100%; }
 }

@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import React from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 import "@css/pages/Settings.scss"
 
 function Settings() {
-    const [style, setStyle] = useOutletContext();
+    const context = useOutletContext();
+    const [style, setStyle] = context._style;
+    const [error, setError] = null();
 
     async function handleSubmit(e) {
         try {
@@ -21,14 +23,13 @@ function Settings() {
                 body: JSON.stringify({theme: formJson})
             });
             if (!response.ok) {
-                console.log(response.json());
-                throw new Error(response.statusText);
+                throw new Error(await response.json());
             }
             const json = await response.json();
             setStyle({...style, ...json.theme})
             window.location.reload()
         } catch (err) {
-            console.log(err);
+            setError(err)
         }
     }
 
@@ -58,17 +59,20 @@ function Settings() {
 
     const cssval = (v) => window.getComputedStyle(document.documentElement).getPropertyValue(v);
 
+    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
+
     return(
         <div id="settings">
             <form id="new-settings" method="post" onSubmit={handleSubmit}>
                 {colorVars.map(variable => (
                     <div className="prefs" id={variable[0].slice(2)}>
-                        <label for={variable[0]}>{variable[1]}</label>
+                        <label htmlFor={variable[0]}>{variable[1]}</label>
                         <input type="color" name={variable[0]} defaultValue={cssval(variable[0])} onChange={handleChange}/>
                     </div>
                 ))}
-                <label for="--text-size">Text size</label>
-                <input type="number" step="1" min="10" name="--text-size" defaultValue={cssval("--text-size")} onChange={handleChange}/>
+                    <label htmlFor="--text-size">Text size</label>
+                    <input type="number" step="1" min="10" name="--text-size" defaultValue={cssval("--text-size")} onChange={handleChange}/>
+                
                 <input type="submit" value="Save"/>
             </form>
         </div>

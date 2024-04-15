@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Access from '@components/Access'
 import Logout from '@components/Logout';
+import Loading from '@pages/Loading';
 
 import "@css/pages/Application.scss"
+
 
 function Application() {
     const [data, setData] = useState(null);
@@ -20,11 +22,10 @@ function Application() {
                         "authorization": "Bearer " + JSON.parse(localStorage.getItem("authToken"))["token"]
                     }
                 });
-                if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
-                }
                 const json = await response.json();
+                if (!response.ok) {
+                    throw new Error(json)
+                }
                 if(json.theme) {
                     for(const [key, value] of Object.entries(json.theme)) {
                         document.documentElement.style.setProperty(key, value);
@@ -33,15 +34,14 @@ function Application() {
                 setData(json);
                 setLoading(false);
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
                 setLoading(false);
             }
         }
         Authenticate();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
     
@@ -58,7 +58,9 @@ function Application() {
                 <Logout/>
             </div>
             <div id="wrapper">
-                <Outlet context={[style, setStyle]}/>
+                <Outlet context={{
+                    _style: [style, setStyle]
+                }}/>
             </div>
         </>)
     }

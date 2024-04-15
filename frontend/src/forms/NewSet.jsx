@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import Loading from '@pages/Loading';
 
 function NewSet(args){
     const [courses, setCourses] = useState(null);
@@ -59,24 +60,26 @@ function NewSet(args){
         };
     }, []);
 
-    if (courses===null) return <div>Loading...</div>;
+    if (courses===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 
-    if (courses.length === 0) return <div><a href="/courses/new">Create a course first!</a></div>
+    if (courses.length === 0) return <div id="view"><div className="error"><a href="/courses/new">Create a course first!</a></div></div>
 
     return(
-        <details open={args.open}><summary>New Set</summary>
-        <form id='new-flashcard-set' method='post' onSubmit={handleSubmit}>
-            {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> :
-                <select name="courseID" id="courseID">
-                    {courses.map(e => <option value={e["_id"]}>{e["courseName"]}</option> )}
-                </select>
-            }
-            <input required type='text' id='setName' name='setName' placeholder='Set name'/>
-            <input required type="submit" value="Create Flashcard Set" />
-        </form>
-        </details>
+        <div id="view">
+            <details open={args.open}><summary>New Flashcard Set</summary>
+            <form id='new-flashcard-set' method='post' onSubmit={handleSubmit}>
+                {hasID ? <input type="hidden" id="courseID" name="courseID" value={courses}/> :
+                    <select name="courseID" id="courseID">
+                        {courses.map(e => <option value={e["_id"]}>{e["courseName"]}</option> )}
+                    </select>
+                }
+                <input required type='text' id='setName' name='setName' placeholder='Set name'/>
+                <input required type="submit" value="Create Flashcard Set" />
+            </form>
+            </details>
+        </div>
     )
 }
 

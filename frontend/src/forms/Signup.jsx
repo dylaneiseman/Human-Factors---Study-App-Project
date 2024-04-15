@@ -23,7 +23,7 @@ function Signup(args){
                 setErr("Signup: " + json)
                 return false;
             }
-            localStorage.setItem("authToken", await response.text());
+            localStorage.setItem("authToken", JSON.stringify(json));
             if(window.location.pathname.slice(1)=='/') navigate("/home");
             window.location.reload();
         } catch (err) {

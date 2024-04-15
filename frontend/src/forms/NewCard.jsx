@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
+import Loading from '@pages/Loading';
 
 function NewCard(args){
     const [sets, setSets] = useState(null);
@@ -58,25 +59,27 @@ function NewCard(args){
         }
     }, []);
 
-    if (sets===null) return <div>Loading...</div>;
+    if (sets===null) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 
     if (sets.length === 0) return <div><a href="/flashcards/set/new">Create a set first!</a></div>
 
     return(
-        <details open={args.open}><summary>New Flashcard</summary>
-        <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
-            {hasID ? <input type='hidden' id='setID' name='setID' value={setID}/> :
-                <select name="setID" id="setID">
-                    {sets.map(e=> <option value={e["_id"]}>{e["setName"]}</option>) }
-                </select>
-            }
-            <input required type='text' id='question' name='question' placeholder='Flashcard Question'/>
-            <input required type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
-            <input type="submit" value="Create Card" />
-        </form>
-        </details>
+        <div id="view">
+            <details open={args.open}><summary>New Flashcard</summary>
+            <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
+                {hasID ? <input type='hidden' id='setID' name='setID' value={setID}/> :
+                    <select name="setID" id="setID">
+                        {sets.map(e=> <option value={e["_id"]}>{e["setName"]}</option>) }
+                    </select>
+                }
+                <input required type='text' id='question' name='question' placeholder='Flashcard Question'/>
+                <input required type='text' id='answer' name='answer' placeholder='Flashcard Answer'/>
+                <input type="submit" value="Create Card" />
+            </form>
+            </details>
+        </div>
     )
 }
 

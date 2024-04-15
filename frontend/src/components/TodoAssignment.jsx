@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Loading from '@pages/Loading';
 
 function TodoAssignments(){
     const [data, setData] = useState(null);
@@ -28,7 +29,7 @@ function TodoAssignments(){
         getData();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <Loading/>;
 
     if (error) return <div>Error: {error.message}</div>;
 
