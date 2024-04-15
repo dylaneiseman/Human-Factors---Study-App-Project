@@ -26,10 +26,11 @@ function NewCard(args){
                 }
             });
             const json = await response.json()
+            if(!response.ok) throw new Error(json)
             if(!hasID) navigate("/flashcards/sets/" + json["setID"])
             window.location.reload()
         } catch (err) {
-            console.log(err);
+            setError(<div className="error">Error: {err.message}</div>)
         }
     }
 
@@ -43,13 +44,12 @@ function NewCard(args){
                     }
                 });
                 if (!response.ok) {
-                    console.log(response.json());
-                    throw new Error(response.statusText);
+                    throw new Error(response.json());
                 }
                 setSets(await response.json());
             } catch (err) {
-                console.log(err);
-                setError(error);
+                setError(err);
+                setSets(err);
             }
         }
         if(!hasID) {
@@ -61,16 +61,15 @@ function NewCard(args){
 
     if (sets===null) return <Loading/>;
 
-    if (error) return <div id="view"><div className="error">Error: {error.message}</div></div>
-
     if (sets.length === 0) return <div><a href="/flashcards/set/new">Create a set first!</a></div>
 
     return(
         <div id="view">
+            {error}<br/>
             <details open={args.open}><summary>New Flashcard</summary>
             <form id='new-flashcard' method='post' onSubmit={handleSubmit}>
                 {hasID ? <input type='hidden' id='setID' name='setID' value={setID}/> :
-                    <select name="setID" id="setID">
+                    <select required name="setID" id="setID">
                         {sets.map(e=> <option value={e["_id"]}>{e["setName"]}</option>) }
                     </select>
                 }
