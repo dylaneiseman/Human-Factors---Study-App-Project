@@ -3,6 +3,7 @@ const FlashcardSet = require('../models/flashcardSetModel')
 const mongoose = require('mongoose')
 const {getUserId} = require("../helpers/getUserId")
 
+// create individual flashcards
 const createFlashcard = async (req, res) =>{
     const {setID, question, answer} = req.body;
 
@@ -20,6 +21,7 @@ const createFlashcard = async (req, res) =>{
     }
 }
 
+// delete flashcards
 const deleteFlashcard = async (req, res) =>{
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -38,6 +40,7 @@ const deleteFlashcard = async (req, res) =>{
     }
 }
 
+// update flashcards
 const updateFlashcard = async (req, res) =>{
     const { id } = req.params
     const updateData = req.body
@@ -55,6 +58,7 @@ const updateFlashcard = async (req, res) =>{
     }
 }
 
+// create flashcard set
 const createFlashcardSet = async (req, res) =>{
     const { courseID, setName } = req.body;
     try{
@@ -66,6 +70,7 @@ const createFlashcardSet = async (req, res) =>{
     }
 }
 
+// delete flashcard set
 const deleteFlashcardSet = async (req, res) =>{
     const { id } = req.params
     try{
@@ -81,6 +86,7 @@ const deleteFlashcardSet = async (req, res) =>{
     }
 }
 
+// update flashcard set
 const updateFlashcardSet = async (req, res) =>{
     const { id } = req.params
     const updateData = req.body
@@ -98,6 +104,7 @@ const updateFlashcardSet = async (req, res) =>{
     }
 }
 
+// get flashcard set
 const getFlashcardSet = async (req, res) =>{
     const { id } = req.params
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -113,6 +120,7 @@ const getFlashcardSet = async (req, res) =>{
     }
 }
 
+// get all flashcards
 const getAllFlashcards = async (req, res) => {
     try {
         const userID = getUserId(req)
@@ -123,6 +131,7 @@ const getAllFlashcards = async (req, res) => {
     }
 };
 
+// get all flashcard sets
 const getAllFlashcardSets = async (req, res) =>{
     try{
         const userID = getUserId(req)

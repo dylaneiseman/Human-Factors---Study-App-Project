@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const User = require('../models/userModel')
 
+// middleware to check if user is authenticated
 const requireAuth = async (req, res, next) => {
     const { authorization } = req.headers
     

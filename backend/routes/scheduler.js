@@ -10,7 +10,7 @@ const {
     } = require('../controllers/schedulerController')
 
 
-router.get('/', requireAuth, checkAccess('readOwn', 'scheduler'), getStudySchedule)
-router.post('/', requireAuth, checkAccess('createOwn', 'scheduler'), setSemesterDates)
+router.get('/', requireAuth, checkAccess('readOwn', 'scheduler'), getStudySchedule) // get scheduler route
+router.post('/', requireAuth, checkAccess('createOwn', 'scheduler'), setSemesterDates) // set semester route
 
 module.exports = router
