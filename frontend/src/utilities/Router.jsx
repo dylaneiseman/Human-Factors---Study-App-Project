@@ -30,6 +30,8 @@ function Pages() {
         <Router>
             <Routes>
                 <Route path="/" element={<Landing/>}/>
+                <Route path="/signup" element={<Landing/>}/>
+                <Route path="/login" element={<Landing/>}/>
                 <Route path="*" element={<NotFound />} />
                 <Route element={<Application/>}>
                     <Route path="/home" element={<Home/>}/>
