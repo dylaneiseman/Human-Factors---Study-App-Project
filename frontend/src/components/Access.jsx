@@ -7,8 +7,6 @@ import Login from "@forms/Login";
 import Signup from "@forms/Signup";
 import Loading from '@pages/Loading';
 
-import "@css/components/Access.scss";
-
 function Access(){
     const [data, setData] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -54,14 +52,11 @@ function Access(){
                 <div className="error">{err}</div>
                 {(window.location.pathname!=='/signup') && <Login setErr={setErr}/>}
                 {window.location.pathname!=='/signup' && 
-                    <div>
-                        <label>Don't already have an account?</label>
-                        <a href = "/signup">Sign up here.</a>
-                    </div>
+                    <div className="redirect">Don't already have an account? <a href="/signup">Sign up here.</a></div>
                 }
                 {(window.location.pathname==='/signup') && <Signup setErr={setErr}/>}
                 {window.location.pathname==='/signup' && 
-                        <div><break/><a href = "/login">Return to login.</a></div>
+                    <div className="redirect"><a href="/login">Return to Login.</a></div>
                 }
             </Modal>
         </div>

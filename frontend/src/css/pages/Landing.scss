@@ -3,15 +3,43 @@
 
 .access-modal .modal-inside {
     display: flex;
-    grid-template-columns: 1fr 1fr;
     gap: 10px;
     background: $offbg;
     box-shadow: unset;
     flex-wrap: wrap;
+    h1#header {
+        color: $a1;
+        font: 600 rem(2.8)/1 "Poppins";
+        text-align: center;
+        width: 100%;
+    }
+    h3 {
+        width: 100%;
+        text-align: center;
+        font: 400 rem(1.1)/1 "Poppins";
+        color: mix($bg, $color, 25%);
+        margin-bottom: 15px;
+    }
     form {
         flex: 1 1 max(300px, 100%/2.2)
     }
     input {
         padding: 10px 15px
+    }
+    .redirect {
+        width: 100%;
+        padding: 11px 15px;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+        border-radius: 1px;
+        background: alpha($a1, 7%);
+        font-weight: 600;
+        box-sizing: border-box;
+        a{
+            transition: .2s ease;
+            font-weight: 700;
+            &:hover {
+                font-weight: 800;
+            }
+        }
     }
 }
