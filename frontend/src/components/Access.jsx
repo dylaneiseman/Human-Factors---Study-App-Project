@@ -7,8 +7,6 @@ import Login from "@forms/Login";
 import Signup from "@forms/Signup";
 import Loading from '@pages/Loading';
 
-import "@css/components/Access.scss";
-
 function Access(){
     const [data, setData] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -45,12 +43,21 @@ function Access(){
 
     if (data) return <Navigate to="/home" replace={true}/>
 
+    // the reason why the same condition is repeated is because combining them breaks the formatting
     return(
         <div id="access">
             <Modal className="access-modal">
+                <h1 id = "header">Time Splice</h1>
+                <h3>Your online study assistant</h3>
                 <div className="error">{err}</div>
-                <Login setErr={setErr}/>
-                <Signup setErr={setErr}/>
+                {(window.location.pathname!=='/signup') && <Login setErr={setErr}/>}
+                {window.location.pathname!=='/signup' && 
+                    <div className="redirect">Don't already have an account? <a href="/signup">Sign up here.</a></div>
+                }
+                {(window.location.pathname==='/signup') && <Signup setErr={setErr}/>}
+                {window.location.pathname==='/signup' && 
+                    <div className="redirect"><a href="/login">Return to Login.</a></div>
+                }
             </Modal>
         </div>
     )

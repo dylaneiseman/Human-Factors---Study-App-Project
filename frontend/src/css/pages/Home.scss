@@ -129,3 +129,12 @@
     justify-self: flex-end;
     border-radius: 8px 0 0 8px;
 }
+
+@media screen and (max-width: 550px) {
+    #home {
+        grid-template: "overview" "course" "db"/100%;
+    }    
+    .createstrip {display:none}
+    #create {border-radius: 8px;}
+    #todo .top {grid-template-columns: 80% 1fr;}
+}

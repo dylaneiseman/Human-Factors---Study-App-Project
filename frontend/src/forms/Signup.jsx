@@ -10,6 +10,10 @@ function Signup(args){
         const form = e.target;
         const formData = new FormData(form);
         const formJson = Object.fromEntries(formData.entries());
+        if(formJson["password"]!=formJson["confirmpassword"]){
+            setErr("Password and Confirm Password do not match.");
+            return
+        }
         try {
             const response = await fetch(process.env.REACT_APP_API_URL + 'user/signup', { 
                 method: form.method,
@@ -34,6 +38,7 @@ function Signup(args){
         <form id="signup" method="post" onSubmit={handleSubmit}>
             <input required type="email" id="email" name="email" placeholder="email@provider.com"/>
             <input required type="password" id="password" name="password" placeholder="password"/>
+            <input required type="password" id="confirmpassword" name="confirmpassword" placeholder="confirm password"/>
             <input type="submit" value="Sign Up"/>
         </form>
     )
