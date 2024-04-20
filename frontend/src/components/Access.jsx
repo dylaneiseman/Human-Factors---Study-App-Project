@@ -45,12 +45,24 @@ function Access(){
 
     if (data) return <Navigate to="/home" replace={true}/>
 
+    // the reason why the same condition is repeated is because combining them breaks the formatting
     return(
         <div id="access">
             <Modal className="access-modal">
+                <h1 id = "header">Time Splice</h1>
+                <h3>Your online study assistant</h3>
                 <div className="error">{err}</div>
-                <Login setErr={setErr}/>
-                <Signup setErr={setErr}/>
+                {(window.location.pathname!=='/signup') && <Login setErr={setErr}/>}
+                {window.location.pathname!=='/signup' && 
+                    <div>
+                        <label>Don't already have an account?</label>
+                        <a href = "/signup">Sign up here.</a>
+                    </div>
+                }
+                {(window.location.pathname==='/signup') && <Signup setErr={setErr}/>}
+                {window.location.pathname==='/signup' && 
+                        <div><break/><a href = "/login">Return to login.</a></div>
+                }
             </Modal>
         </div>
     )
